@@ -22,7 +22,7 @@ module.exports = function(grunt) {
     // Default task(s).
     grunt.registerTask('build:release', []);
 
-    grunt.registerTask('dev', ['serve:dev']);
+    grunt.registerTask('dev', ['concurrent:dev']);
 
     grunt.registerTask('release', ['build:release']);
     grunt.registerTask('release:fix', 'Create a new fix release', ['build:release', 'bump:fix']);

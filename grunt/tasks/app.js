@@ -13,7 +13,8 @@ module.exports = function (grunt) {
                 "paths": {
                     // override vendor directory
                     // to pick directly in bower repository
-                    "vendor": "../../<%= config.www.bower %>"
+                    "vendor": "../../<%= config.www.bower %>",
+                    "kernel": "kernel"
                 }
             },
             "main": {
@@ -25,17 +26,19 @@ module.exports = function (grunt) {
         },
         "concat": {
             "app-kernel": {
-                "src": [ "<%= config.www.requireConfig %>", "<%= config.public.main %>" ],
-                "dev": "<%= config.public.main %>"
+                "src": [ "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
+                "dest": "<%= config.public.mainjs %>"
             }
         },
         "watch": {
             "app-dev": {
+                "files": [ "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
+                "tasks": ["concat:app-kernel"]
             }
         }
     });
 
-    grunt.registerTask('app:dev', 'build application for development environment', ['concat:app-kernel']);
-    grunt.registerTask('app:prod', 'build application for development environment', ['requirejs:main']);
+    grunt.registerTask('app:dev', 'build application for development environment', ['concat:app-kernel', 'watch:app-dev']);
+    grunt.registerTask('app:prod', 'build application for development environment', ['concat:app-kernel', 'requirejs:main']);
 };
 
