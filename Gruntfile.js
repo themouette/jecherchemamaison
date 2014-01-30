@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     grunt.loadTasks(path.resolve(__dirname, 'grunt', 'tasks'));
 
     // Default task(s).
-    grunt.registerTask('build:release', []);
+    grunt.registerTask('build:release', ['app:release']);
 
     grunt.registerTask('dev', ['concurrent:dev']);
 

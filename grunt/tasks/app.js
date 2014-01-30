@@ -19,26 +19,30 @@ module.exports = function (grunt) {
             },
             "main": {
                 "options": {
-                    "out": "<%= config.public.main %>",
+                    "out": "<%= config.public.mainjs %>",
                     "include": ['kernel']
                 }
             }
         },
         "concat": {
-            "app-kernel": {
-                "src": [ "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
+            "app-kernel-dev": {
+                "src": [ "<%= config.www.bower %>/requirejs/require.js", "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
+                "dest": "<%= config.public.mainjs %>"
+            },
+            "app-kernel-release": {
+                "src": [ "<%= config.www.bower %>/almond/almond.js", "<%= config.www.requireConfig %>", "<%= config.public.mainjs %>" ],
                 "dest": "<%= config.public.mainjs %>"
             }
         },
         "watch": {
             "app-dev": {
-                "files": [ "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
-                "tasks": ["concat:app-kernel"]
+                "files": [ "<%= config.www.bower %>/requirejs/require.js", "<%= config.www.requireConfig %>", "<%= config.www.js %>/kernel.js" ],
+                "tasks": ["concat:app-kernel-dev"]
             }
         }
     });
 
-    grunt.registerTask('app:dev', 'build application for development environment', ['concat:app-kernel', 'watch:app-dev']);
-    grunt.registerTask('app:prod', 'build application for development environment', ['concat:app-kernel', 'requirejs:main']);
+    grunt.registerTask('app:dev', 'build application for development environment', ['concat:app-kernel-dev', 'watch:app-dev']);
+    grunt.registerTask('app:release', 'build application for development environment', ['requirejs:main', 'concat:app-kernel-release']);
 };
 

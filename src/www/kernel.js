@@ -1,4 +1,4 @@
-require(['vendor/jquery/jquery'], function ($) {
+require(['jquery'], function ($) {
     console.log($);
     console.log("coin");
 });
