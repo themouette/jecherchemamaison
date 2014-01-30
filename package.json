@@ -17,7 +17,8 @@
     "grunt-express": "~1.2.1",
     "grunt-sass": "~0.10.0",
     "express": "~3.4.8",
-    "grunt-concurrent": "~0.4.3"
+    "grunt-concurrent": "~0.4.3",
+    "grunt-contrib-cssmin": "~0.7.0"
   },
   "dependencies": {}
 }

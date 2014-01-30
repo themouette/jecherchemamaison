@@ -1,9 +1,9 @@
 {
     "dev": {
         "options": {
-            "limit": 2,
+            "limit": 3,
             "logConcurrentOutput": true
         },
-        "tasks": ["serve:dev", "app:dev"]
+        "tasks": ["serve:dev", "app:dev", "style:dev"]
     }
 }
