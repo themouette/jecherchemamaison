@@ -18,12 +18,18 @@ module.exports = function(grunt) {
     require('load-grunt-tasks')(grunt);
     // load all local grunt tasks
     grunt.loadTasks(path.resolve(__dirname, 'grunt', 'tasks'));
-        console.log(grunt.config.data);
 
     // Default task(s).
-    grunt.registerTask('build', []);
-    grunt.registerTask('dev', ['build']);
-    grunt.registerTask('default', ['build']);
+    grunt.registerTask('build:release', []);
+
+    grunt.registerTask('dev', ['serve:dev']);
+
+    grunt.registerTask('release', ['build:release']);
+    grunt.registerTask('release:fix', 'Create a new fix release', ['build:release', 'bump:fix']);
+    grunt.registerTask('release:minor', 'Create a new minor release', ['build:release', 'bump:minor']);
+    grunt.registerTask('release:major', 'Create a new major release', ['build:release', 'bump:major']);
+
+    grunt.registerTask('default', ['dev']);
 
     function readGruntOptions(filename) {
         var commentRe = /^\s*\/\/.*\n/gm;
