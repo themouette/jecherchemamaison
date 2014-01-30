@@ -31,6 +31,8 @@ module.exports = function(grunt) {
 
                 if (value.options) {
                     value.options = _.defaults(value.options, newConfig.options);
+                } else {
+                    value.options = newConfig.options;
                 }
             });
 
