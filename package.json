@@ -15,8 +15,8 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-express": "~1.2.1",
-    "grunt-sass": "~0.10.0"
+    "grunt-sass": "~0.10.0",
+    "express": "~3.4.8"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
