@@ -4,7 +4,21 @@
 //
 // ``` json
 // "extend-config": {
+//     "options": {useFilenameAsKey: true},
 //     "default": {files: ['grunt/options/*.json']}
+// }
+// ```
+//
+// All json files in `grunt/options/` are loaded by default, using filename as config key.
+//
+// For instance if you define `grunt/options/foo.js` with `{"bar": "baz"}`, it
+// adds the following to your grunt config:
+//
+// ``` json
+// {
+//    "foo": {
+//         "bar": "baz"
+//    }
 // }
 // ```
 //

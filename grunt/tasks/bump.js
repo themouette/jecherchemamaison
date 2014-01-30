@@ -1,10 +1,10 @@
 // ## Bump task
 //
-// This task creates a release
+// This task creates a release.
 //
-// **bump:fix**
-// **bump:minor**
-// **bump:major**
+// * **bump:fix** create a new fix release
+// * **bump:minor** create a new minor release
+// * **bump:major** create a new major release
 module.exports = function (grunt) {
     "use strict";
 

@@ -27,7 +27,7 @@
 //
 // **serve:dev** start dev server
 //
-// **serve:prod** start prod server
+// **serve:release** start prod server
 //
 module.exports = function (grunt) {
     "use strict";
@@ -54,5 +54,5 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('serve:dev', 'Start a development server.', ['express:dev']);
-    grunt.registerTask('serve:prod', 'Start a production-like server FOR TESTING PURPOSE.', ['express:prod', 'express-keepalive:prod']);
+    grunt.registerTask('serve:release', 'Start a production-like server FOR TESTING PURPOSE.', ['express:prod', 'express-keepalive:prod']);
 };
