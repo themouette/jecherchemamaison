@@ -1,0 +1,100 @@
+{
+    "config": {
+        "public": {
+
+            // -------------------------------------------------
+            // This is the public directory, available on the web.
+            // Put your public content there.
+            //
+            // **WARNING**:
+            // If you modify this, be sure to change it in
+            // server-dev too. Didn't figure out how to pass
+            // options to server.
+            // -------------------------------------------------
+            "dir": "public",
+
+            // -------------------------------------------------
+            // This is the css directory, this is preprocessors
+            // target directory.
+            // -------------------------------------------------
+            "css": "<%= config.public.dir %>/css",
+
+            // -------------------------------------------------
+            // This is the js directory.
+            // All public javascript file must be here.
+            // All builded javascript file will end up here.
+            // -------------------------------------------------
+            "js": "<%= config.public.dir %>/js",
+
+            // ------------------------------------------
+            // The compiled javascript main file.
+            // ------------------------------------------
+            "mainjs": "<%= config.public.js %>/main.js",
+
+            // -------------------------------------------------
+            // This is the vendor directory.
+            // All bower components should be copied here at
+            // release.
+            // -------------------------------------------------
+            "vendor": "<%= config.public.dir %>/vendor"
+        },
+        "www": {
+            // -------------------------------------------------
+            // This is the sources root directory.
+            // Mostly used in this file.
+            // -------------------------------------------------
+            "dir": "src/www",
+
+            // -------------------------------------------------
+            // Directory where frontend javascript is located.
+            // In dev mode those scripts are available under
+            // `/js` url.
+            //
+            // **WARNING**:
+            // If you modify this, be sure to change it in
+            // server-dev too. Didn't figure out how to pass
+            // options to server.
+            // -------------------------------------------------
+            "js": "<%= config.www.dir %>",
+
+            // ------------------------------------------
+            // The requirejs config file.
+            // ------------------------------------------
+            "requireConfig": "<%= config.www.js %>/config.js",
+
+            // -------------------------------------------------
+            // This is the sass sources root directory.
+            // -------------------------------------------------
+            "sass": "sass",
+
+            // -------------------------------------------------
+            // Directory where frontend javascript is located.
+            // In dev mode those scripts are available under
+            // `/vendor` url.
+            //
+            // **WARNING**:
+            // If you modify this, be sure to change it in
+            // server-dev too. Didn't figure out how to pass
+            // options to server.
+            // -------------------------------------------------
+            "bower": "bower_components"
+        },
+        "server": {
+            // Directory where server javascript is located.
+            // -------------------------------------------------
+            "dir": "src/server",
+
+            // -------------------------------------------------
+            // Prod server file.
+            // -------------------------------------------------
+            "prod": "<%= config.server.dir %>/server",
+
+            // -------------------------------------------------
+            // Dev server file.
+            // -------------------------------------------------
+            "dev": "<%= config.server.dir %>/server-dev"
+        }
+    }
+}
+
+
