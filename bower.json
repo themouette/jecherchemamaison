@@ -1,0 +1,7 @@
+{
+  "name": "my-awesome-app",
+  "dependencies": {
+    "requirejs": "~2.1.10",
+    "foundation": "~5.0.3"
+  }
+}
