@@ -1,7 +1,10 @@
 require.config({
-    baseUrl: '',
+    baseUrl: 'js/',
     paths: {
-        'jquery': 'vendor/jquery/jquery'
+        'vendor': '<%= vendors %>',
+        // jQuery defines itself as 'jquery', so you should
+        // use this alias too.
+        'jquery': '<%= vendors %>/jquery/jquery'
     },
     map: {
         '*': {

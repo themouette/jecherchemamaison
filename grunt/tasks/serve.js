@@ -5,7 +5,7 @@
 //
 // In **dev** mode it files under /js are served from respectively from
 // 'public/js' and 'src/www'.
-// Files under /vendor are served from respectively from 'bower_conmponents' and 'public/vendor'.
+// Files under /vendors are served from respectively from 'bower_conmponents' and 'public/vendors'.
 //
 // In **prod**, only `public` directory is served, so you might need to copy
 // static files during build.
@@ -17,7 +17,7 @@
 //  "copy": {
 //      "release-app": {
 //      "files": {
-//          "<%= config.public.vendor %>/jquery.js": "<%= config.www.vendor %>/jquery/jquery.js"
+//          "<%= config.public.vendors %>/jquery.js": "<%= config.www.vendors %>/jquery/jquery.js"
 //      }
 //  }
 // }

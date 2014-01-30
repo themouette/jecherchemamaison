@@ -1,9 +1,14 @@
 {
+    // This is the main dev task.
+    // As most of process are live, we need to use grunt-concurrent.
     "dev": {
         "options": {
+            // As many processes as there is
             "limit": 3,
+            // Log tasks output
             "logConcurrentOutput": true
         },
+        // Task to run concurrently
         "tasks": ["serve:dev", "app:dev", "style:dev"]
     }
 }

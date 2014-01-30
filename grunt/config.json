@@ -23,6 +23,11 @@
             // This is the js directory.
             // All public javascript file must be here.
             // All builded javascript file will end up here.
+            //
+            // **WARNING**:
+            // If you modify this, be sure to change it in
+            // server-dev too. Didn't figure out how to pass
+            // options to server.
             // -------------------------------------------------
             "js": "<%= config.public.dir %>/js",
 
@@ -32,11 +37,22 @@
             "mainjs": "<%= config.public.js %>/main.js",
 
             // -------------------------------------------------
-            // This is the vendor directory.
+            // This is the url where vendors are available from.
+            // All bower components are served from this url.
+            //
+            // **WARNING**:
+            // If you modify this, be sure to change it in
+            // server-dev too. Didn't figure out how to pass
+            // options to server.
+            // -------------------------------------------------
+            "vendorsUrl": "/vendors",
+
+            // -------------------------------------------------
+            // This is the vendors directory.
             // All bower components should be copied here at
             // release.
             // -------------------------------------------------
-            "vendor": "<%= config.public.dir %>/vendor"
+            "vendors": "<%= config.public.dir %><%= config.public.vendorsUrl %>"
         },
         "www": {
             // -------------------------------------------------
@@ -70,7 +86,7 @@
             // -------------------------------------------------
             // Directory where frontend javascript is located.
             // In dev mode those scripts are available under
-            // `/vendor` url.
+            // `/vendors` url.
             //
             // **WARNING**:
             // If you modify this, be sure to change it in

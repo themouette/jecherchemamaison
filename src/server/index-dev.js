@@ -8,13 +8,15 @@ var wwwPublicDir = path.join(rootDir, 'public');
 var wwwJsDir = path.join(rootDir, 'src/www');
 var wwwVendorDir = path.join(rootDir, 'bower_components');
 
+console.log(wwwPublicDir, wwwJsDir, wwwVendorDir);
 
 app.use(express.logger('dev'));
 
+app.use('/vendors', express.static(wwwVendorDir));
 app.use(main);
-app.use('/', express.static(wwwPublicDir));
 app.use('/js', express.static(wwwJsDir));
-app.use('/vendor', express.static(wwwVendorDir));
+app.use('/vendors', express.directory(wwwVendorDir));
+app.use('/', express.directory(wwwJsDir));
 
 // I want to place any static content here
 // but I want to define the location of these static content in `grunt-express` options like so:

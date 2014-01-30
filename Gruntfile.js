@@ -1,15 +1,19 @@
+// This file should not be modified.
+// =================================
+//
+// Look at doc/getting-started.md and doc/grunt-build.md for more information.
 module.exports = function(grunt) {
     var path = require('path');
     var _ = require('lodash');
 
+    // Project configuration.
+    // Use pkg and grunt/config.json content.
     var options = {};
     _.extend(options, {
             pkg: grunt.file.readJSON('package.json')
         },
         readGruntOptions('grunt/config.json'));
 
-
-    // Project configuration.
     grunt.initConfig(options);
 
     // Add the extendConfig method to grunt.
@@ -19,10 +23,10 @@ module.exports = function(grunt) {
     // load all local grunt tasks
     grunt.loadTasks(path.resolve(__dirname, 'grunt', 'tasks'));
 
-    // Default task(s).
+    // Main tasks.
     grunt.registerTask('build:release', 'Build release code.', ['app:release', 'style:release']);
 
-    grunt.registerTask('dev', ['concurrent:dev']);
+    grunt.registerTask('dev', 'Start development environment.', ['concurrent:dev']);
 
     grunt.registerTask('release', ['build:release']);
     grunt.registerTask('release:fix', 'Create a new fix release', ['build:release', 'bump:fix']);
@@ -31,6 +35,9 @@ module.exports = function(grunt) {
 
     grunt.registerTask('default', ['dev']);
 
+    // This is a copy/paste from grunt/tasks/options.js, badly...
+    // load a commented JSON file, strip comments
+    // and returns parser JSON.
     function readGruntOptions(filename) {
         var commentRe = /^\s*\/\/.*\n/gm;
         if (!grunt.file.exists(filename)) {

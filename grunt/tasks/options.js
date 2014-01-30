@@ -66,7 +66,7 @@ module.exports = function (grunt) {
         var useFilenameAsKey = options.useFilenameAsKey;
 
         // Read and return the file's source.
-        var config = grunt.file.readJSON(filepath);
+        var config = readGruntOptions(filepath);
 
         // This means options are in `filename` namespace.
         // for instance `watch.json` will be used as `{watch: [content]}`
@@ -78,6 +78,20 @@ module.exports = function (grunt) {
 
         grunt.log.writeln('Load config from '+filepath);
         grunt.extendConfig(config);
+    }
+
+    // This is a copy/paste from Gruntfile.js, badly...
+    // load a commented JSON file, strip comments
+    // and returns parser JSON.
+    function readGruntOptions(filename) {
+        var commentRe = /^\s*\/\/.*\n/gm;
+        if (!grunt.file.exists(filename)) {
+            return {};
+        }
+        var content = grunt.file.read(filename);
+        content = content.replace(commentRe, '');
+
+        return JSON.parse(content);
     }
 
     function key(filepath) {
