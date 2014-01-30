@@ -45,7 +45,8 @@ module.exports = function (grunt) {
             prod: {
                 options: {
                     port: port,
-                    server: "<%= config.server.prod %>"
+                    server: "<%= config.server.prod %>",
+                    base: "<%= config.public.dir %>"
                 }
             }
         }
@@ -53,5 +54,5 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('serve:dev', 'Start a development server.', ['express:dev']);
-    grunt.registerTask('serve:prod', 'Start a production-like server FOR TESTING PURPOSE.', ['express-keepalive:dev']);
+    grunt.registerTask('serve:prod', 'Start a production-like server FOR TESTING PURPOSE.', ['express:prod', 'express-keepalive:prod']);
 };
