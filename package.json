@@ -16,10 +16,16 @@
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-express": "~1.2.1",
     "grunt-sass": "~0.10.0",
-    "express": "~3.4.8",
     "grunt-concurrent": "~0.4.3",
     "grunt-contrib-cssmin": "~0.7.0",
-    "grunt-contrib-clean": "~0.5.0"
+    "grunt-contrib-clean": "~0.5.0",
+    "superagent": "~0.16.0",
+    "expect.js": "~0.2.0",
+    "mocha": "~1.17.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "express": "~3.4.8",
+    "es6-promise": "~0.1.1",
+    "nedb": "~0.10.0"
+  }
 }
