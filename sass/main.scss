@@ -13,7 +13,7 @@
 //  ,"foundation/components/dropdown"
 //  ,"foundation/components/dropdown-buttons"
 //  ,"foundation/components/flex-video"
-//  ,"foundation/components/forms"
+  ,"foundation/components/forms"
 //  ,"foundation/components/grid"
 //  ,"foundation/components/inline-lists"
 //  ,"foundation/components/joyride"
@@ -35,11 +35,7 @@
 //  ,"foundation/components/thumbs"
 //  ,"foundation/components/tooltips"
 //  ,"foundation/components/top-bar"
-//  ,"foundation/components/type"
+  ,"foundation/components/type"
 //  ,"foundation/components/offcanvas"
 //  ,"foundation/components/visibility"
 ;
-
-body:before {
-    content: "Define style in `sass/main.scss`"
-}
