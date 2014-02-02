@@ -4,11 +4,11 @@
     "dev": {
         "options": {
             // As many processes as there is
-            "limit": 3,
+            "limit": 4,
             // Log tasks output
             "logConcurrentOutput": true
         },
         // Task to run concurrently
-        "tasks": ["serve:dev", "app:dev", "style:dev"]
+        "tasks": ["serve:dev", "app:dev", "style:dev", "templates:dev"]
     }
 }
