@@ -21,15 +21,19 @@ module.exports = {
         });
     },
 
-    update: function () {
-
+    update: function (doc, newValues) {
+        return new Promise(function (resolve, reject) {
+            db.update({_id: ensureId(doc)}, newValues, {}, function (err, newDoc) {
+                if (err) return reject(err);
+                resolve(newDoc);
+            });
+        });
     },
 
     insert: function(doc) {
         return new Promise(function (resolve, reject) {
             db.insert(doc, function (err, newDoc) {
                 if (err) return reject(err);
-                console.log('inserted');
                 resolve(newDoc);
             });
         });

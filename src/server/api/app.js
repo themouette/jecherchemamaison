@@ -16,9 +16,10 @@ app.use(
     // force classified_id in body.
     // Note that it does not override existing value.
     function insertClassifiedId(req, res, next) {
-        if (!("classified_id" in req.body)) {
+        if (req.body && !("classified_id" in req.body)) {
             req.body.classified_id = req.params.classified_id;
         }
+        next();
     },
     // and finally the crud middleware.
     crud({
@@ -79,7 +80,7 @@ function crud(options) {
         function updateModel(req, res, next) {
             repository
                 .update(req.model, req.newModel)
-                .then(sendDocument(req, res, next, 201))
+                .then(sendDocument(req, res, next, 200), error500(req, res, next))
                 .catch(error500(req, res, next));
         }
     );
