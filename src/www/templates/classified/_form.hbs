@@ -1,0 +1,15 @@
+<form action="/api/classifieds{{#if id}}/{{id}}{{/if}}" method="POST">
+    {{#if id}}
+    <input type="hidden" name="_method" value="put">
+    {{/if}}
+    <p><label for="link">Lien</label><input type="url" name="link" value="{{this.link}}" id="link"></p>
+    <p><label for="name">Titre</label><input type="text" name="name" value="{{name}}" id="name"></p>
+    <p><label for="surface">Surface</label><input type="number" name="surface" value="{{surface}}" id="surface"></p>
+    <p><label for="taxe_habitation">Taxe Habitation</label><input type="number" name="taxe_habitation" value="{{taxe_habitation}}" id="taxe_habitation"></p>
+    <p><label for="taxe_foncier">Taxe Foncier</label><input type="number" name="taxe_foncier" value="{{taxe_foncier}}" id="taxe_foncier"></p>
+    <p><label for="etage">Etage</label><input type="number" name="etage" value="{{etage}}" id="etage"></p>
+    <p><label for="adresse">Adresse</label><textarea name="adresse" id="adresse">{{address}}</textarea></p>
+    
+    <p><input type="submit" name="submit" value="Envoyer" id="submit"></p>
+</form>
+

@@ -1,22 +1,75 @@
 define([
     'fossil/module',
     'fossil/views/view',
+
+    'views/classified/list',
+    'views/classified/create',
+    'views/classified/show',
+    'models/classified',
+    'collections/classified',
+
+    'fossil/viewStore',
+
+    // Don't care about return value.
     'helpers/message',
+    'helpers/classified',
     'helpers/routing'
-], function (Module, View) {
+], function (Module, View, ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, ViewStore) {
+    "use strict";
+    var view;
 
     var Application = Module.extend({
         routes: {
             '': 'index',
             'classifieds': 'classifiedList',
             'classifieds/:id': 'classifiedShow',
+            'classifieds/new': 'classifiedCreate',
+            'classifieds/:id/edit': 'classifiedEdit',
             'compose': 'compose',
             'mail/:id': 'mailShow'
         },
+
+        startListener: function () {
+            this.classifieds = new ClassifiedCollection();
+            var store = this.store = new ViewStore();
+            this.store.decorateModule(this);
+
+            store.set('classifiedList', function (collection) {
+                return new ClassifiedListView({
+                    collection: collection
+                });
+            });
+            store.set('classifiedShow', function (classified) {
+                return new ClassifiedShowView({
+                    model: classified
+                });
+            });
+            store.set('classifiedCreate', function (classified) {
+                return new ClassifiedCreateView({
+                    model: classified
+                });
+            });
+            store.set('loading', function () {
+                return 'Loading...';
+            });
+            store.set('error', function (err) {
+                return 'An error occured';
+            });
+        },
+        standbyListener: function () {
+            this.store.undecorateModule(this);
+            this.store.clean();
+            this.store = null;
+        },
+
+
+
         events: {
             "foo:bar": function () {
                 console.log('foo:bar triggered.');
-            }
+            },
+            'start': 'startListener',
+            'stanby': 'standbyListener'
         },
 
         index: function () {
@@ -26,11 +79,33 @@ define([
 
 
         classifiedList: function () {
-            this.useView('{{message "List of classifieds:"}} {{linkTo "Annonce 12" "classifieds/12"}}');
+            this
+                .useView('loading')
+                .waitForFetch(this.classifieds)
+                .thenUseView('classifiedList', 'error');
         },
 
         classifiedShow: function (id) {
-            this.useView('{{linkTo "Liste" "classifieds"}}<br />Annonce 12, {{linkTo "Nouveau message" "compose"}}');
+            var classified = this.classifieds.get(id) || new Classified({id: id});
+
+            this
+                .useView('loading')
+                .waitForFetch(classified)
+                .thenUseView('classifiedShow', 'error');
+        },
+
+        classifiedCreate: function () {
+            this
+                .thenUseView('classifiedCreate', 'error');
+        },
+
+        classifiedEdit: function (id) {
+            var classified = this.classifieds.get(id) || new Classified({id: id});
+
+            this
+                .useView('loading')
+                .waitForFetch(classified)
+                .thenUseView('classifiedCreate', 'error');
         },
 
         compose: function () {

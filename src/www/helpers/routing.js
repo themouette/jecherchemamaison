@@ -8,7 +8,7 @@ define([
         return new Handlebars.SafeString(str);
     }
 
-    Handlebars.registerHelper('url', urlFor);
+    template.helper('url', urlFor);
     function urlFor(fragment) {
         var options = _.last(arguments);
         var fragments = _.initial(arguments, 1);
@@ -23,7 +23,7 @@ define([
 
     var linkTpl = _.template('<a href="<%- url %>"<% for(var i in attrs) { %><%= i%>="<%= attrs[i] %>"<% } %>><%= title %></a>');
 
-    Handlebars.registerHelper('linkTo', function (title, fragment) {
+    template.helper('linkTo', function (title, fragment) {
         var options = _.last(arguments);
         var fragments = _.rest(arguments, 1);
 
@@ -32,7 +32,7 @@ define([
         return safe(linkTpl({url: url, title: title, attrs: {}}));
     });
 
-    Handlebars.registerHelper('linkToEvent', function (eventname) {
+    template.helper('linkToEvent', function (eventname) {
         var options = _.last(arguments);
         var id = options.hash.id || "fossil-link-to-event_"+_.uniqueId();
 
