@@ -25,6 +25,11 @@
             // ------------------------------------------
             "mainjs": "<%= config.public.js %>/main.js",
 
+            // ------------------------------------------
+            // Where are compiled templates located
+            // ------------------------------------------
+            "templates": "<%= config.public.js %>/templates",
+
             // -------------------------------------------------
             // This is the url where vendors are available from.
             // All bower components are served from this url.
@@ -56,6 +61,11 @@
             // The requirejs config file.
             // ------------------------------------------
             "requireConfig": "<%= config.www.js %>/config.js",
+
+            // ------------------------------------------
+            // Where are original templates located
+            // ------------------------------------------
+            "templates": "<%= config.www.js %>/templates",
 
             // -------------------------------------------------
             // This is the sass sources root directory.

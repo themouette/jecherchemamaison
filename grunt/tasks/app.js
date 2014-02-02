@@ -60,7 +60,8 @@ module.exports = function (grunt) {
                 // is processed.
                 "mainConfigFile": "<%= config.public.mainjs %>",
                 "paths": {
-                    "kernel": "kernel"
+                    "kernel": "kernel",
+                    "templates": "../../<%= config.public.templates %>"
                 }
             },
             "main": {
