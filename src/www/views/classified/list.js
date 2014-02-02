@@ -6,10 +6,12 @@ define([
 ], function (tpl, itemTpl, ModelView, CollectionView) {
 
     var ItemView = ModelView.extend({
+        tagName: 'li',
         template: itemTpl
     });
 
     var List = CollectionView.extend({
+        selector: 'ul.classified-list',
         template: tpl,
         ItemView: ItemView
     });

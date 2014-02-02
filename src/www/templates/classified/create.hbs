@@ -1,1 +1,12 @@
-{{> classified/_form }}
+<div class="row">
+    <div class="classified-create-wrapper large-12 columns">
+        {{#if id}}
+        <h3 class="classified-create-header">Modifier une annonce</h3>
+        {{else}}
+        <h3 class="classified-create-header">Ajouter une annonce</h3>
+        {{/if}}
+        <section class="classified-create-main">
+        {{> classified/_form }}
+        </section>
+    </div>
+</div>

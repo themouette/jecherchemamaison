@@ -3,7 +3,10 @@ define([
     'underscore',
     'fossil/views/model',
     'models/classified',
-    'templates/classified/_form'
+    'templates/classified/_form',
+    'templates/classified/_form_identity',
+    'templates/classified/_form_parameters',
+    'templates/classified/_form_costs'
 ], function (tpl, _, View, Classified) {
 
     var Create = View.extend({
