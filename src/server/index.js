@@ -10,3 +10,9 @@ app.use('/', express.static(wwwPublicDir));
 app.use('/api', api);
 
 module.exports = app;
+
+if (!module.parent) {
+    var port = app.get('port') || process.env.PORT || 8080;
+    app.listen(port);
+    console.log('Express started on port '+port);
+}
