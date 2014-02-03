@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var colorizer = require('colorizer').create('Colorizer');
 
 var casper = require('casper').create({

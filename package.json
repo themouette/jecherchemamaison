@@ -5,7 +5,8 @@
   "main": "Gruntfile.js",
   "unsafe-perm": true,
   "scripts": {
-    "postinstall": "./node_modules/.bin/bower install --allow-root  ; ./node_modules/.bin/grunt release",
+    "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
+    "start": "src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -31,24 +32,11 @@
     "node": "0.10.*"
   },
   "dependencies": {
-    "grunt-cli": "*",
-    "grunt": "~0.4.2",
-    "lodash": "~2.4.1",
-    "load-grunt-tasks": "~0.3.0",
-    "grunt-contrib-concat": "~0.3.0",
-    "grunt-contrib-requirejs": "~0.4.1",
-    "grunt-express": "~1.2.1",
-    "grunt-sass": "~0.10.0",
-    "grunt-concurrent": "~0.4.3",
-    "grunt-contrib-cssmin": "~0.7.0",
-    "grunt-contrib-clean": "~0.5.0",
-    "superagent": "~0.16.0",
-    "expect.js": "~0.2.0",
-    "mocha": "~1.17.1",
-    "grunt-contrib-handlebars": "~0.6.1",
     "express": "~3.4.8",
     "es6-promise": "~0.1.1",
     "nedb": "~0.10.0",
-    "bower": "~1.2.8"
+    "bower": "~1.2.8",
+    "casperjs": "~1.1.0-beta3",
+    "phantomjs": "~1.9.7-1"
   }
 }
