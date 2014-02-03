@@ -21,7 +21,7 @@ define([
         return "#" + urlRoot + fragments.join('');
     }
 
-    var linkTpl = _.template('<a href="<%- url %>"<% for(var i in attrs) { %><%= i%>="<%= attrs[i] %>"<% } %>><%= title %></a>');
+    var linkTpl = _.template('<a href="<%- url %>"<% for(var i in attrs) { %><%= i %><% if (attrs[i] != null) { %>="<%= attrs[i] %>"<% }} %>><%= title %></a>');
 
     template.helper('linkTo', function (title, fragment) {
         var options = _.last(arguments);
@@ -29,7 +29,7 @@ define([
 
         var url = urlFor.apply(this, fragments);
 
-        return safe(linkTpl({url: url, title: title, attrs: {}}));
+        return safe(linkTpl({url: url, title: title, attrs: options.hash}));
     });
 
     template.helper('linkToEvent', function (eventname) {

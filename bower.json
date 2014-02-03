@@ -6,6 +6,7 @@
     "almond": "~0.2.*",
     "fossil-core": "https://github.com/themouette/fossil-core.git#doc-ochestration",
     "fossil-view": "~0.2.*",
-    "handlebars": "~1.*"
+    "handlebars": "~1.*",
+    "backbone.stickit": "~0.7.0"
   }
 }

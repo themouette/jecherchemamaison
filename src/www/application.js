@@ -13,6 +13,8 @@ define([
     // Don't care about return value.
     'helpers/message',
     'helpers/classified',
+    'helpers/collection',
+    'helpers/utils',
     'helpers/routing'
 ], function (Module, View, ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, ViewStore) {
     "use strict";

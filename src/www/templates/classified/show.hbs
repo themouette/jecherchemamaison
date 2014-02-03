@@ -1,12 +1,22 @@
-<div class="small-9 columns">
+{{viewClass "classified-show"}}
+
+
+<div class="small-12 columns">
+    <h3 class="right">{{price}} €</h3>
     <h3 class="classified-title">{{name}}</h3>
-    <div>{{desc}}</div>
+</div>
+
+
+<div class="small-9 columns">
+    <div class="small-6 columns">
+        <p>
+            <a class="th"><img src="{{first images}}" /></a>
+        </p>
+        {{> classified/_images}}
+    </div>
+    <p>{{content}}</p>
 </div>
 <div class="small-3 columns text-right">
-    <h3>{{price}} €</h3>
-    <p>
-        <a href="{{this.link}}" target="_blank">Voir sur le site</a>
-    </p>
     <ul class="no-bullet">
         <li>Surface: {{surface}} m2</li>
         <li>Etage: {{etage}}</li>
@@ -16,17 +26,21 @@
         <li>Foncier: {{taxe_foncier}} € / an</li>
         <li>habitation: {{taxe_habitation}} € / an</li>
     </ul>
-    <ul class="side-nav">
+    <ul class="no-bullet">
         <li>
-            {{linkTo "Retour à la liste" "classifieds"}}
+            {{linkTo "Retour à la liste" "classifieds" class="button"}}
         </li>
         <li>
-            {{linkTo "Editer" "classifieds/" id "/edit"}}
+            {{linkTo "Editer" "classifieds/" id "/edit" class="button secondary tiny"}}
+            <a href="{{this.link}}"  class="button secondary tiny" target="_blank">Voir sur le site</a>
         </li>
         <li>
-            {{#linkToEvent "foo:bar"}}
+        <p>{{#linkToEvent "foo:bar"}}
                 Envoyer un message
-            {{/linkToEvent}}
+                {{/linkToEvent}}</p>
+        </li>
+        <li>
+            <a href="#" class="classified-delete button alert tiny">Supprimer</a>
         </li>
     </ul>
 </div>

@@ -13,6 +13,7 @@ require.config({
         'fossil': '<%= vendors %>/fossil-core/src',
         'fossil/views': '<%= vendors %>/fossil-view/src',
         'foundation': '<%= vendors %>/foundation/js/foundation.min',
+        'backbone.stickit': '<%= vendors %>/backbone.stickit/backbone.stickit',
 
         'fossil/views/model': 'views/model'
     },
@@ -22,6 +23,7 @@ require.config({
     shim: {
         'underscore': {exports: '_'},
         'backbone': {deps: ['underscore', 'jquery'], exports: 'Backbone'},
+        'backbone.stickit': {deps: ['backbone'], exports: 'Backbone'},
         'handlebars': {exports: 'Handlebars'},
         'foundation': {
             deps: ['jquery'],

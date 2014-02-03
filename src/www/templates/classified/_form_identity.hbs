@@ -1,18 +1,25 @@
     <div class="row">
       <div class="small-3 columns">
-        <label for="link" class="right inline">Lien</label>
+        <label for="lien" class="right inline">Lien</label>
       </div>
       <div class="small-9 columns">
-        <input type="url" name="link" value="{{this.link}}" id="link">
+        <div class="row collapse">
+            <div class="small-10 columns">
+                <input type="url" name="lien" value="{{this.link}}" id="lien">
+            </div>
+            <div class="small-2 columns">
+                <a class="postfix classified-fetch">crawl</a>
+            </div>
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="small-3 columns">
-        <label for="name" class="right inline">Titre</label>
+        <label for="titre" class="right inline">Titre</label>
       </div>
       <div class="small-9 columns">
-        <input type="text" name="name" value="{{name}}" id="name">
+        <input type="text" name="titre" value="{{name}}" id="titre">
       </div>
     </div>
 
@@ -22,6 +29,15 @@
       </div>
       <div class="small-9 columns">
         <textarea name="adresse" id="adresse">{{address}}</textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="description" class="right inline">Description</label>
+      </div>
+      <div class="small-9 columns">
+        <textarea name="description" id="description" style="height: 300px;">{{content}}</textarea>
       </div>
     </div>
 

@@ -9,22 +9,19 @@
         </div>
         <div class="small-5 columns">
             {{> classified/_form_parameters }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="small-7 columns">
-            <p>Something here</p>
-        </div>
-        <div class="small-5 columns">
             {{> classified/_form_costs }}
+            {{> classified/_images }}
         </div>
     </div>
 
     <div class="row">
         {{#if id}}
             {{linkToClassified this}}
+            <a href="#" class="classified-delete button alert tiny">Supprimer</a>
+            <a href="{{this.link}}"  class="classified-form-link-external button secondary tiny" target="_blank">Voir sur le site</a>
         {{/if}}
-        <input type="submit" name="submit" value="Envoyer" id="submit" class="button round right">
+        <input type="submit" name="submit" value="Envoyer" id="submit" class="button radius right">
+        <a href="{{url "classifieds"}}" class="classified-delete button secondary radius right">Retour à la liste</a>
     </div>
 </form>
 
