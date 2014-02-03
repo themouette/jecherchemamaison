@@ -44,19 +44,20 @@ module.exports = {
 
         // parse images
         function getImages() {
-            var imageRe = /url\('([^']*)'\)/;
+            var imageRe = /url\('([^']*)'\)/m;
             var imageAlterRe = /thumbs/g;
             var imgs = document.querySelectorAll('[style*=background-image]');
             imgs = Array.prototype.slice.call(imgs);
 
             return imgs.map(function (elt) {
                 var str = elt.getAttribute('style');
+                if (!imageRe.test(str)) return null;
                 return imageRe
                     // extract backgound-image url
                     .exec(str)[1]
                     // replaces thumbs
                     .replace(imageAlterRe, 'images');
-            });
+            }).filter(function identity(a) {return a;});
         }
 
         // extract price

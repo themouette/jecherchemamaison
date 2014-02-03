@@ -4,6 +4,22 @@ var app = module.exports = express();
 var repository = require('./repository');
 var validator = require('./validator');
 
+
+app.post('/classifieds/from-url',
+    express.bodyParser(),
+    express.methodOverride(),
+    function (req, res, next) {
+        var crawl = require('../../crawler/crawler');
+        var url = req.body.url;
+        if (!url) {
+            return res.send('url parameter is mandatory', 400);
+        }
+        crawl(url, function (err, classified) {
+            if (err) return res.send(err.message, 500);
+            res.send(classified);
+        });
+    }
+);
 app.use('/classifieds', crud({
         repository: require('./repository'),
         validator: require('./validator')

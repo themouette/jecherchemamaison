@@ -10,6 +10,7 @@ require("utils").dump(casper.cli.options);
 require("utils").dump(casper.cli.args);
 
 if (!casper.cli.args.length) {
+    casper.warn("call me with an url parameter so I can fetch it.");
     casper.exit(1);
 }
 
