@@ -80,8 +80,19 @@ define([
                 accumulator[val.name] = val.value;
                 return accumulator;
             }, {});
+            var isNew = this.model.isNew;
 
-            this.model.set(values).save();
+            this.model.set(values)
+                .save()
+                .done(function () {
+                    if (isNew) {
+                        var r = new Backbone.Router();
+                        r.navigate('#classifieds', {trigger: true, replace: true});
+                    }
+                })
+                .fail(function () {
+                    alert('An error occured');
+                });
         },
 
         updateFromUrl: function (e) {
