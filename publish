@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+git checkout -b release && grunt release && git add -f public && git commit -m 'Latest release' && git push -f deploy release:master && git checkout master && git branch -D release
