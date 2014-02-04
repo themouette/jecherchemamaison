@@ -1,3 +1,4 @@
+var screenshotDir = "/app/data/screenshots";
 var colorizer = require('colorizer').create('Colorizer');
 
 var casper = require('casper').create({
@@ -38,7 +39,7 @@ function crawl(url) {
         .start(url)
         .then(function () {
             // capture selector to keep a reference.
-            this.captureSelector('screen.png', strategy.selector || 'body');
+            this.captureSelector(screenshotDir+'/screen.png', strategy.selector || 'body');
         })
         .then(function () {
             var data = this.evaluate(function(extractor) {
