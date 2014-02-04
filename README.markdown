@@ -1,10 +1,14 @@
 grunt-init-themouette-frontend
 ==============================
 
-Simple grunt template for a frontend application.
-
 See [Getting started guide](doc/getting-statded.md) to learn how to customize
 build.
+
+## Set a proxy
+
+``` bash
+sudo -u dokku dokku config:get "jecherchemamaison" PROXY="88.176.44.98:28038"
+```
 
 ## Build the project
 

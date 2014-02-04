@@ -2,9 +2,22 @@
 // It starts a casperjs browser and returns the parsed
 // classified or an error.
 
+var casper_args = [];
+
+if (process.env.PROXY) {
+    casper_args.push('--proxy='+process.env.PROXY);
+}
+if (process.env.DEBUG_CASPER) {
+    casper_args.push('--verbose --log-level=debug');
+}
+
 var crawl = module.exports = function (url, next) {
     var exec = require('child_process').exec;
-    var cmd = 'casperjs '+__dirname+'/casper.js '+url;
+    var cmd = [
+        'casperjs ',
+        casper_args.join(' '), ' ',
+        __dirname+'/casper.js ',
+        url].join('');
 
     exec(cmd, function (error, stdout, stderr) {
         if (error) next(error);
