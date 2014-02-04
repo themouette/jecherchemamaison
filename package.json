@@ -37,6 +37,7 @@
     "nedb": "~0.10.0",
     "bower": "~1.2.8",
     "casperjs": "~1.1.0-beta3",
-    "phantomjs": "~1.9.7-1"
+    "phantomjs": "~1.9.7-1",
+    "formidable": "~1.0.14"
   }
 }
