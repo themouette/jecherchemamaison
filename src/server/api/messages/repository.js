@@ -1,5 +1,5 @@
 var Promise = require('es6-promise').Promise;
-var db = require('./db').classifieds;
+var db = require('../db').messages;
 
 
 module.exports = {
@@ -12,9 +12,9 @@ module.exports = {
         });
     },
 
-    findAll: function () {
+    findAll: function (classified) {
         return new Promise(function(resolve, reject) {
-            db.find({}, function (err, docs) {
+            db.find(getClassifiedFilter(classified), function (err, docs) {
                 if (err) return reject(err);
                 resolve(docs);
             });
@@ -30,7 +30,7 @@ module.exports = {
         });
     },
 
-    insert: function(doc) {
+    insert: function (doc) {
         return new Promise(function (resolve, reject) {
             db.insert(doc, function (err, newDoc) {
                 if (err) return reject(err);
@@ -49,6 +49,11 @@ module.exports = {
         });
     }
 };
+
+function getClassifiedFilter(classified) {
+    if (!classified) { return {}; }
+    return { classified_id: ensureId(classified) };
+}
 
 function ensureId(doc) {
     if (typeof doc === "object" && "_id" in doc) {
