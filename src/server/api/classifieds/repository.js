@@ -1,11 +1,11 @@
 var Promise = require('es6-promise').Promise;
-var db = require('./db').classifieds;
+var db = require('../db').classifieds;
 
 
-module.exports = {
+var repository = module.exports = {
     findOne: function (id) {
         return new Promise(function(resolve, reject) {
-            db.findOne({_id: id}, function (err, doc) {
+            db.findOne({_id: ensureId(id)}, function (err, doc) {
                 if (err) return reject(err);
                 resolve(doc);
             });
@@ -23,10 +23,13 @@ module.exports = {
 
     update: function (doc, newValues) {
         return new Promise(function (resolve, reject) {
-            db.update({_id: ensureId(doc)}, newValues, {}, function (err, newDoc) {
+            db.update({_id: ensureId(doc)}, { $set: newValues }, {}, function (err, nbInsert) {
                 if (err) return reject(err);
-                resolve(newDoc);
+                resolve();
             });
+        })
+        .then(function () {
+            return repository.findOne(doc);
         });
     },
 
@@ -43,7 +46,6 @@ module.exports = {
         return new Promise(function (resolve, reject) {
             db.remove({_id: ensureId(doc)}, {multi: false}, function (err, newDoc) {
                 if (err) return reject(err);
-                console.log('inserted');
                 resolve(newDoc);
             });
         });

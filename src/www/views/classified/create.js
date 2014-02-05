@@ -90,7 +90,7 @@ define([
                         r.navigate('#classifieds', {trigger: true, replace: true});
                     }
                 })
-                .fail(function () {
+                .fail(function (e) {
                     alert('An error occured');
                 });
         },

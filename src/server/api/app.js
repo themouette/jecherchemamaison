@@ -1,8 +1,6 @@
 var express = require('express');
 var app = module.exports = express();
 
-var repository = require('./repository');
-var validator = require('./validator');
 var crud = require('./crud-generator');
 
 var cloudinmail = require('./cloudmailin');
@@ -25,8 +23,8 @@ app.post('/classifieds/from-url',
     }
 );
 app.use('/classifieds', crud({
-        repository: require('./repository'),
-        validator: require('./validator')
+        repository: require('./classifieds/repository'),
+        validator: require('./classifieds/validator')
     })
 );
 app.use(
@@ -38,7 +36,7 @@ app.use(
         path: '/:classified_id/messages',
         middlewares: [
             // validate classified exists
-            crud.idToObject(repository, 'classified_id', 'classified'),
+            crud.idToObject(require('./classifieds/repository'), 'classified_id', 'classified'),
             // force classified_id in body.
             // Note that it does not override existing value.
             function insertClassifiedId(req, res, next) {

@@ -1,5 +1,5 @@
-var db = require('./db');
-var repository = require('./repository');
+var db = require('./db').classifieds;
+var repository = require('./classifieds/repository');
 
 insert({name: 'foo', _id: 0, price: 1000, img: null, desc:"Une annonce", surface: "82", stair: 4, address: '12 rue du pot'});
 insert({name: 'foo', _id: 1, price: 3000, img: null, desc:"Une annonce", surface: "62", stair: 4, address: '12 rue du pot'});
