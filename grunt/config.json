@@ -5,11 +5,6 @@
             // -------------------------------------------------
             // This is the public directory, available on the web.
             // Put your public content there.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
             // -------------------------------------------------
             "dir": "public",
 
@@ -23,12 +18,6 @@
             // This is the js directory.
             // All public javascript file must be here.
             // All builded javascript file will end up here.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
-            // -------------------------------------------------
             "js": "<%= config.public.dir %>/js",
 
             // ------------------------------------------
@@ -39,11 +28,6 @@
             // -------------------------------------------------
             // This is the url where vendors are available from.
             // All bower components are served from this url.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
             // -------------------------------------------------
             "vendorsUrl": "/vendors",
 
@@ -65,11 +49,6 @@
             // Directory where frontend javascript is located.
             // In dev mode those scripts are available under
             // `/js` url.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
             // -------------------------------------------------
             "js": "<%= config.www.dir %>",
 
@@ -87,11 +66,6 @@
             // Directory where frontend javascript is located.
             // In dev mode those scripts are available under
             // `/vendors` url.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
             // -------------------------------------------------
             "bower": "bower_components"
         },
