@@ -49,6 +49,11 @@ app.use(
     })
 );
 
+app.use(function handleError(err, req, res, next) {
+    if (!err) next();
+    res.send(err.message || 'unknown error', 500);
+});
+
 
 if (!module.parent) {
     var port = app.get('port') || 8080;

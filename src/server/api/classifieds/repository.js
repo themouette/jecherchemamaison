@@ -49,6 +49,18 @@ var repository = module.exports = {
                 resolve(newDoc);
             });
         });
+    },
+
+    findByLink: function (links) {
+        if (!links.forEach) {
+            links = [links];
+        }
+        return new Promise(function (resolve, reject) {
+            db.find({ link: {$in: links} }, function (err, docs) {
+                if (err) return reject(err);
+                resolve(docs);
+            });
+        });
     }
 };
 
