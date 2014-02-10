@@ -34,25 +34,69 @@ module.exports = function (grunt) {
     var port = grunt.option('port') || 1337;
 
     grunt.extendConfig({
-        express: {
+        connect: {
+            options: {
+                port: port,
+                hostname: '*'
+            },
             dev: {
                 options: {
-                    port: port,
-                    server: "<%= config.server.dev %>",
-                    serverreload: true
+                    debug: true,
+                    middleware: function (connect) {
+                        return [
+                            connect.logger('dev'),
+                            // serve bower components if exists
+                            vendorsDir(connect),
+                            // Then compiled assets if exists
+                            publicDir(connect),
+                            // Then application
+                            serverApp(connect, 'config.server.dev'),
+                            // Finally, js www sources
+                            jsSourcesDir(connect)
+                        ];
+                    }
                 }
             },
             prod: {
                 options: {
-                    port: port,
-                    server: "<%= config.server.prod %>",
-                    base: "<%= config.public.dir %>"
+                    debug: false,
+                    middleware: function (connect) {
+                        return [
+                            connect.logger(),
+                            // Serve compiled assets if exists
+                            publicDir(connect),
+                            // Then application
+                            serverApp(connect, 'config.server.prod'),
+                        ];
+                    }
                 }
             }
         }
     });
 
 
-    grunt.registerTask('serve:dev', 'Start a development server.', ['express:dev']);
-    grunt.registerTask('serve:release', 'Start a production-like server FOR TESTING PURPOSE.', ['express:prod', 'express-keepalive:prod']);
+    grunt.registerTask('serve:dev', 'Start a development server.', ['connect:dev:keepalive']);
+    grunt.registerTask('serve:release', 'Start a production-like server FOR TESTING PURPOSE.', ['connect:prod:keepalive']);
+
+    function publicDir(connect) {
+        var server = connect.createServer();
+        server.use(connect.static(grunt.config.get('config.public.dir')));
+        return server;
+    }
+
+    function jsSourcesDir(connect) {
+        var server = connect.createServer();
+        server.use('/js', connect.static(grunt.config.get('config.www.js')));
+        return server;
+    }
+
+    function vendorsDir(connect) {
+        var server = connect.createServer();
+        server.use(grunt.config.get('config.public.vendorsUrl'), connect.static(grunt.config.get('config.www.bower')));
+        return server;
+    }
+
+    function serverApp(connect, main) {
+        return require(grunt.config.get(main));
+    }
 };
