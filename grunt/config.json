@@ -18,12 +18,6 @@
             // This is the js directory.
             // All public javascript file must be here.
             // All builded javascript file will end up here.
-            //
-            // **WARNING**:
-            // If you modify this, be sure to change it in
-            // server-dev too. Didn't figure out how to pass
-            // options to server.
-            // -------------------------------------------------
             "js": "<%= config.public.dir %>/js",
 
             // ------------------------------------------
