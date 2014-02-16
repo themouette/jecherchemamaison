@@ -1,4 +1,5 @@
 define([
+    'module',
     'fossil/module',
     'fossil/views/view',
 
@@ -7,6 +8,7 @@ define([
     'views/classified/show',
     'models/classified',
     'collections/classified',
+    'collections/message',
 
     'fossil/viewStore',
 
@@ -16,7 +18,7 @@ define([
     'helpers/collection',
     'helpers/utils',
     'helpers/routing'
-], function (Module, View, ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, ViewStore) {
+], function (module, Module, View, ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, MessageCollection, ViewStore) {
     "use strict";
     var view;
 
@@ -41,9 +43,10 @@ define([
                     collection: collection
                 });
             });
-            store.set('classifiedShow', function (classified) {
+            store.set('classifiedShow', function (classified, messages) {
                 return new ClassifiedShowView({
-                    model: classified
+                    classified: classified,
+                    messages: messages
                 });
             });
             store.set('classifiedCreate', function (classified) {
@@ -89,10 +92,12 @@ define([
 
         classifiedShow: function (id) {
             var classified = this.classifieds.get(id) || new Classified({id: id});
+            var messages = new MessageCollection({classified: classified});
 
             this
                 .useView('loading')
                 .waitForFetch(classified)
+                .waitForFetch(messages)
                 .thenUseView('classifiedShow', 'error');
         },
 

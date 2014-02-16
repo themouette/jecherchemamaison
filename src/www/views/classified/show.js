@@ -1,8 +1,13 @@
 define([
     'jquery',
     'templates/classified/show',
-    'fossil/views/model'
-], function ($, tpl, ModelView) {
+    'fossil/utils',
+    'fossil/views/regionManager',
+    'fossil/views/collection',
+    'fossil/views/model',
+    'fossil/views/view',
+    'services/financial'
+], function ($, tpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
 
     var Show = ModelView.extend({
         template: tpl,
@@ -36,5 +41,99 @@ define([
         }
     });
 
-    return Show;
+    var Messages = CollectionView.extend({
+        // see bug #6 https://github.com/themouette/fossil-view/issues/6
+        //selector: 'ul',
+        ItemView: ModelView.extend({
+            tagName: 'li',
+            template: '{{linkTo title "classified/" classified_id "/messages/" _id}}'
+        }),
+        template: '<h3>messages</h3><ul></ul>'
+    });
+
+    var CreditLine = View.extend({
+        template: [
+            '<h3>credit line</h3>',
+            '<p>Total emprunté: {{currency borrowed}}</p>',
+            '<table style="width: 100%;">',
+            '<thead><tr>',
+                '<th>Durée</th>',
+                '<th>Taux global</th>',
+                '<th>Mensualités</th>',
+                '<th>Charges et taxes comprises</th>',
+            '</tr></thead>',
+            '{{#each scenarios}}',
+                '<tr>',
+                    '<th>{{nbYears}} ans</th>',
+                    '<th>{{percent rate}}</th>',
+                    '<td>{{currency monthly}}</td>',
+                    '<td><strong>{{currency total}}</strong></td>',
+                '</tr>',
+            '{{/each}}',
+            '</table>'
+        ].join('\n'),
+        initialize: function (options) {
+            utils.copyOption(['rates', 'capabilities'], this, options);
+        },
+        getViewData: function () {
+            var classified = this.model;
+            var borrowed = classified.get('price') - this.capabilities.get('capital');
+            borrowed = Math.max(borrowed, 0);
+            var scenarios = this.rates.toJSON().map(function (rate) {
+                var totalRate = +rate.rate + rate.insurance;
+                var monthly = Financial.monthly(borrowed, rate.nbYears, totalRate);
+                var total = monthly + (classified.get('taxe_foncier') / 12) + parseInt(classified.get('charges'), 10);
+                return {
+                    nbYears: rate.nbYears,
+                    rate: totalRate,
+                    monthly: Financial.monthly(borrowed, rate.nbYears, totalRate),
+                    total: total
+                };
+            });
+
+            return {
+                borrowed: borrowed,
+                scenarios: scenarios
+            };
+        }
+    });
+
+    var Layout = RegionMagager.extend({
+        recycle: false,
+        template: [
+            '<div class="classified row"></div>',
+            '<div class="messages row">Here comes messages</div>',
+            '<div class="credit-line row"></div>'
+            ].join(''),
+        regions: {
+            'classified': '.classified',
+            'messages': '.messages',
+            'credit-line': '.credit-line'
+        },
+        initialize: function (options) {
+            utils.copyOption(['messages', 'classified'], this, options);
+            var classifiedView = new Show({
+                model: this.classified
+            });
+            var messagesView = new Messages({
+                collection: this.messages
+            });
+            var creditView = new CreditLine({
+                model: this.classified,
+                rates: new Backbone.Collection([
+                    {nbYears: 10, rate: 1.25/100, insurance: 0},
+                    {nbYears: 10, rate: 2.91/100, insurance: 0.18/100},
+                    {nbYears: 15, rate: 3.26/100, insurance: 0.4/100}
+                ]),
+                capabilities: new Backbone.Model({
+                    capital: 65000
+                })
+            });
+            this.registerView(classifiedView, "classified");
+            this.registerView(messagesView, "messages");
+            this.registerView(creditView, "credit-line");
+        }
+    });
+
+    return Layout;
 });

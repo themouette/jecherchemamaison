@@ -31,5 +31,10 @@ require.config({
                 $(document).foundation();
             }
         }
+    },
+    config: {
+        'application': {
+            foo: 'bar'
+        }
     }
 });

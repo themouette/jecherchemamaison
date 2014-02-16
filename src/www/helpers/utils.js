@@ -28,8 +28,17 @@ define([
                 var $el = options.data.view.$el;
                 $el.addClass(classname);
             }
-        }
+        },
+        number: function (num) {
+            return Math.round(num * 100) / 100;
+        },
+        percent: function (percent) {
+            return (Math.round(percent * 100 * 100) / 100) + " %";
+        },
 
+        currency: function (amount) {
+            return (Math.round(amount * 100) / 100) + " €";
+        }
     };
 
     for (var helper in helpers) {
