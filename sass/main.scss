@@ -43,3 +43,10 @@
 .clearing-thumbs.small-block-grid-3 li {
     margin-right: 0;
 }
+.classified-list-item-preview {
+    height: 250px;
+
+    img {
+        max-height: 97%;
+    }
+}
