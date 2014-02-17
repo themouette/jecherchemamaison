@@ -14,7 +14,7 @@ var repository = module.exports = {
 
     findAll: function () {
         return new Promise(function(resolve, reject) {
-            db.find({}).sort({updated_at: -1, created_at: -1}).exec(function (err, docs) {
+            db.find({}).sort({created_at: -1, updated_at: -1}).exec(function (err, docs) {
                 if (err) return reject(err);
                 resolve(docs);
             });
