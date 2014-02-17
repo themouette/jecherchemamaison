@@ -56,8 +56,11 @@ define([
             '<h3>credit line</h3>',
             '<div class="small-3 columns">Simuler une proposition à </div>',
             '<div class="small-9 columns">',
-                '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" />',
-                ' € <a href="#" class="button secondary tiny proposal-reset">reset</a>',
+                '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" /> €',
+                ' <a href="#" class="button secondary tiny proposal-reset">reset</a>',
+                '{{#if difference}}',
+                '<span>Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>',
+                '{{/if}}',
             '</div>',
             '<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>',
             '<table style="width: 100%;">',
@@ -82,11 +85,11 @@ define([
             this.price = this.model.get('price');
         },
         events: {
-            'change input[name=proposal]': function (e) {
-                this.price = e.target.value;
+            'keypress input[name=proposal]': _.debounce(function (e) {
+                this.price = parseInt(e.target.value);
                 this.render();
                 this.$('input[name=proposal]').focus();
-            },
+            }, 800),
             'click .proposal-reset': function (e) {
                 e.preventDefault();
                 this.price = this.model.get('price');
@@ -114,6 +117,8 @@ define([
 
             return {
                 notaire: notaire,
+                difference: this.price - classified.get('price'),
+                differenceRate: (this.price - classified.get('price'))/classified.get('price'),
                 price: this.price,
                 borrowed: borrowed,
                 scenarios: scenarios
