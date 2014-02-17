@@ -85,11 +85,11 @@ define([
             this.price = this.model.get('price');
         },
         events: {
-            'keypress input[name=proposal]': _.debounce(function (e) {
+            'change input[name=proposal]': function (e) {
                 this.price = parseInt(e.target.value);
                 this.render();
                 this.$('input[name=proposal]').focus();
-            }, 800),
+            },
             'click .proposal-reset': function (e) {
                 e.preventDefault();
                 this.price = this.model.get('price');
