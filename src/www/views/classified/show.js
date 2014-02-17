@@ -54,6 +54,11 @@ define([
     var CreditLine = View.extend({
         template: [
             '<h3>credit line</h3>',
+            '<div class="small-3 columns">Simuler une proposition à </div>',
+            '<div class="small-9 columns">',
+                '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" />',
+                ' € <a href="#" class="button secondary tiny proposal-reset">reset</a>',
+            '</div>',
             '<p>Total emprunté: {{currency borrowed}}</p>',
             '<table style="width: 100%;">',
             '<thead><tr>',
@@ -74,10 +79,24 @@ define([
         ].join('\n'),
         initialize: function (options) {
             utils.copyOption(['rates', 'capabilities'], this, options);
+            this.price = this.model.get('price');
+        },
+        events: {
+            'change input[name=proposal]': function (e) {
+                this.price = e.target.value;
+                this.render();
+                this.$('input[name=proposal]').focus();
+            },
+            'click .proposal-reset': function (e) {
+                e.preventDefault();
+                this.price = this.model.get('price');
+                this.render();
+                this.$('input[name=proposal]').focus();
+            }
         },
         getViewData: function () {
             var classified = this.model;
-            var borrowed = classified.get('price') - this.capabilities.get('capital');
+            var borrowed = this.price - this.capabilities.get('capital');
             borrowed = Math.max(borrowed, 0);
             var scenarios = this.rates.toJSON().map(function (rate) {
                 var totalRate = +rate.rate + rate.insurance;
@@ -92,6 +111,7 @@ define([
             });
 
             return {
+                price: this.price,
                 borrowed: borrowed,
                 scenarios: scenarios
             };
