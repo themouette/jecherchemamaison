@@ -59,7 +59,7 @@ define([
                 '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" /> €',
                 ' <a href="#" class="button secondary tiny proposal-reset">reset</a>',
                 '{{#if difference}}',
-                '<span>Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>',
+                '<span class="{{rateClass}} radius label">Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>',
                 '{{/if}}',
             '</div>',
             '<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>',
@@ -115,13 +115,17 @@ define([
                 };
             });
 
+            var difference = this.price - classified.get('price');
+            var differenceRate = difference/classified.get('price');
+
             return {
                 notaire: notaire,
-                difference: this.price - classified.get('price'),
-                differenceRate: (this.price - classified.get('price'))/classified.get('price'),
+                difference: difference,
+                differenceRate: differenceRate,
                 price: this.price,
                 borrowed: borrowed,
-                scenarios: scenarios
+                scenarios: scenarios,
+                rateClass: (differenceRate >= -0.1 && 'success') || (differenceRate >= -0.15 && 'secondary') || 'alert'
             };
         }
     });
