@@ -59,7 +59,7 @@ define([
                 '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" />',
                 ' € <a href="#" class="button secondary tiny proposal-reset">reset</a>',
             '</div>',
-            '<p>Total emprunté: {{currency borrowed}}</p>',
+            '<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>',
             '<table style="width: 100%;">',
             '<thead><tr>',
                 '<th>Durée</th>',
@@ -96,12 +96,14 @@ define([
         },
         getViewData: function () {
             var classified = this.model;
-            var borrowed = this.price - this.capabilities.get('capital');
+            var notaire = Financial.notaire(this.price);
+            var borrowed = parseInt(this.price) + parseInt(notaire, 10) - this.capabilities.get('capital');
             borrowed = Math.max(borrowed, 0);
             var scenarios = this.rates.toJSON().map(function (rate) {
                 var totalRate = +rate.rate + rate.insurance;
                 var monthly = Financial.monthly(borrowed, rate.nbYears, totalRate);
-                var total = monthly + (classified.get('taxe_foncier') / 12) + parseInt(classified.get('charges'), 10);
+                var foncier = parseFloat(classified.get('taxe_foncier')) || 0;
+                var total = monthly + (foncier / 12) + parseFloat(classified.get('charges') || 0, 10);
                 return {
                     nbYears: rate.nbYears,
                     rate: totalRate,
@@ -111,6 +113,7 @@ define([
             });
 
             return {
+                notaire: notaire,
                 price: this.price,
                 borrowed: borrowed,
                 scenarios: scenarios
