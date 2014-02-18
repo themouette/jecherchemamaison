@@ -38,6 +38,10 @@ define([
 
         currency: function (amount) {
             return (Math.round(amount * 100) / 100) + " €";
+        },
+
+        nl2br: function (str) {
+            return str.replace(/\n/mg, '<br />');
         }
     };
 
