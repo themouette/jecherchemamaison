@@ -41,8 +41,11 @@ define([
         },
 
         nl2br: function (str) {
-            return str.replace(/\n/mg, '<br />');
-        }
+            return str ? str.replace(/\n/mg, '<br />') : '';
+        },
+        encodeURIComponent: function(str) {
+            return encodeURIComponent(str);
+        },
     };
 
     for (var helper in helpers) {

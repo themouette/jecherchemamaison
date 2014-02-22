@@ -3,17 +3,29 @@ require.config({
     deps: ['foundation'],
     paths: {
         'vendor': '<%= vendors %>',
+
+        'text': '<%= vendors %>/requirejs-text/text',
+        async: '<%= vendors %>/requirejs-plugins/src/async',
+        font: '<%= vendors %>/requirejs-plugins/src/font',
+        goog: '<%= vendors %>/requirejs-plugins/src/goog',
+        image: '<%= vendors %>/requirejs-plugins/src/image',
+        json: '<%= vendors %>/requirejs-plugins/src/json',
+        noext: '<%= vendors %>/requirejs-plugins/src/noext',
+        mdown: '<%= vendors %>/requirejs-plugins/src/mdown',
+        propertyParser : '<%= vendors %>/requirejs-plugins/src/propertyParser',
+        markdownConverter : '<%= vendors %>/requirejs-plugins/lib/Markdown.Converter',
+
         // jQuery defines itself as 'jquery', so you should
         // use this alias too.
         'jquery': '<%= vendors %>/jquery/jquery',
         'underscore': '<%= vendors %>/underscore/underscore',
         'backbone': '<%= vendors %>/backbone/backbone',
         'handlebars': '<%= vendors %>/handlebars/handlebars',
-        'text': '<%= vendors %>/requirejs-text/text',
         'fossil': '<%= vendors %>/fossil-core/src',
         'fossil/views': '<%= vendors %>/fossil-view/src',
         'foundation': '<%= vendors %>/foundation/js/foundation.min',
         'backbone.stickit': '<%= vendors %>/backbone.stickit/backbone.stickit',
+        'maps': 'https://maps.googleapis.com/maps/api/js?sensor=false',
 
         'fossil/views/model': 'views/model'
     },
@@ -30,7 +42,8 @@ require.config({
             init: function (foundation) {
                 $(document).foundation();
             }
-        }
+        },
+        'maps': { 'exports': 'google.maps' }
     },
     config: {
         'application': {

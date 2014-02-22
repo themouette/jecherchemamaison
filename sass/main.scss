@@ -40,7 +40,8 @@
 //  ,"foundation/components/visibility"
 ;
 
-.clearing-thumbs.small-block-grid-3 li {
+.clearing-thumbs.small-block-grid-3 li,
+.clearing-thumbs.small-block-grid-6 li {
     margin-right: 0;
 }
 .classified-list-item-preview {
@@ -49,4 +50,14 @@
     img {
         max-height: 97%;
     }
+}
+.classified-main-image {
+    img {
+        max-height: 350px;
+    }
+}
+
+.classified-map {
+    width: 100%;
+    height: 300px;
 }

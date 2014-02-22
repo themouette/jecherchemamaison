@@ -6,7 +6,9 @@ define([
     'fossil/views/collection',
     'fossil/views/model',
     'fossil/views/view',
-    'services/financial'
+    'services/financial',
+    'templates/classified/_images6',
+    'async!https://maps.googleapis.com/maps/api/js?sensor=false'
 ], function ($, tpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
 
     var Show = ModelView.extend({
@@ -38,6 +40,62 @@ define([
                 .fail(function (err) {
                     alert(err);
                 });
+        },
+
+        attachPlugins: function () {
+            var el = this.$('.classified-map')[0];
+            var d = new $.Deferred();
+            d.then(function (result) {
+                var mapOptions = {
+                    center: result.geometry.location,
+                    zoom: locationTypeToZoom (result.types)
+                };
+                var map = new google.maps.Map(el, mapOptions);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: result.geometry.location
+                });
+            }, function (status) {
+                alert("Geocode was not successful for the following reason: " + status);
+            });
+
+            var address = this.model.get('address') || 'Clermont Ferrand';
+            var geocoder = new google.maps.Geocoder();
+            var latlng = new google.maps.LatLng(45.77, 3.12);
+            geocoder.geocode( { 'address': address}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK && results.length) {
+                    d.resolve(results[0]);
+                } else {
+                    d.reject(status);
+                }
+            });
+
+            function locationTypeToZoom (types) {
+                var ifType = ifTypeMatch(types);
+                return ifType('street_address', 16) ||
+                    ifType('locality', 14) ||
+                    ifType('postal_code', 14) ||
+                    ifType('neighborhood', 15) ||
+                    ifType('route', 16) ||
+                    ifType('intersection', 16) ||
+                    ifType('political', 9) ||
+                    ifType('country', 9) ||
+                    ifType('administrative_area_level_1', 10) ||
+                    ifType('administrative_area_level_2', 10) ||
+                    ifType('administrative_area_level_3', 10) ||
+                    ifType('colloquial_area', 10) ||
+                    ifType('sublocality', 14) ||
+                    ifType('sublocality_level_5', 14) ||
+                    ifType('premise', 10) ||
+                    ifType('subpremise', 10) ||
+                    ifType('natural_feature', 10) ||
+                    ifType('park', 10) || 12;
+            }
+            function ifTypeMatch(types) {
+                return function ifType(expected, zoom) {
+                    return types.indexOf(expected) !== -1 && zoom;
+                };
+            }
         }
     });
 
