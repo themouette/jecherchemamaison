@@ -86,7 +86,7 @@ define([
         classifiedList: function () {
             this
                 .useView('loading')
-                .waitForFetch(this.classifieds)
+                .waitForFetch(this.classifieds, {reset: true})
                 .thenUseView('classifiedList', 'error');
         },
 
