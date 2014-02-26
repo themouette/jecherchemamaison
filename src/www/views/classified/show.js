@@ -36,6 +36,8 @@ define([
                 .destroy()
                 .done(function () {
                     v.$el.prepend('<p class="alert info">Supprimé</p>');
+                    var r = new Backbone.Router();
+                    r.navigate('#classifieds', {trigger: true, replace: true});
                 })
                 .fail(function (err) {
                     alert(err);
