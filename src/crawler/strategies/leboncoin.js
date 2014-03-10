@@ -46,7 +46,8 @@ module.exports = {
         function getImages() {
             var imageRe = /url\('([^']*)'\)/m;
             var imageAlterRe = /thumbs/g;
-            var imgs = document.querySelectorAll('[style*=background-image]');
+            // main image is also available in thumbs, so only thumbs are collected
+            var imgs = document.querySelectorAll('[style*=background-image][style*=thumbs]');
             imgs = Array.prototype.slice.call(imgs);
 
             return imgs.map(function (elt) {
