@@ -47,7 +47,16 @@ var repository = module.exports = {
     },
 
     delete: function (doc) {
-        return this.softDelete(doc);
+        var self = this;
+        return this
+            .findOne(doc)
+            .then(function (dbDoc) {
+                if (!dbDoc.deleted_at) {
+                    return self.softDelete(doc);
+                } else {
+                    return self.hardDelete(doc);
+                }
+            });
     },
 
     softDelete: function (doc) {
