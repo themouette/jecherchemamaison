@@ -84,6 +84,10 @@
     &.is_deleted {
         opacity: 0.6;
         @include filter(grayscale, 100%);
+        &:hover {
+            opacity: 1;
+            @include filter(grayscale, 0%);
+        }
     }
     &.is_active {
     }
