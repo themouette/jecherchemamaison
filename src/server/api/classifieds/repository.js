@@ -22,9 +22,13 @@ var repository = module.exports = {
     },
 
     update: function (doc, newValues) {
+        if (!doc.created_at) newValues.created_at = new Date();
+        newValues.updated_at = new Date();
+        return this.rawUpdate(doc, newValues);
+    },
+
+    rawUpdate: function (doc, newValues) {
         return new Promise(function (resolve, reject) {
-            if (!doc.created_at) newValues.created_at = new Date();
-            newValues.updated_at = new Date();
             db.update({_id: ensureId(doc)}, { $set: newValues }, {}, function (err, nbInsert) {
                 if (err) return reject(err);
                 resolve();
@@ -60,7 +64,7 @@ var repository = module.exports = {
     },
 
     softDelete: function (doc) {
-        return this.update(doc, {deleted_at: new Date()});
+        return this.rawUpdate(doc, {deleted_at: new Date()});
     },
 
     hardDelete: function (doc) {
