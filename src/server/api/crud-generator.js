@@ -210,7 +210,6 @@ function requestToCriteria() {
                 }
             });
         }
-        console.log(req.where);
         next();
     };
 }
