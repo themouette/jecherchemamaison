@@ -215,7 +215,8 @@ define([
                 rates: new Backbone.Collection([
                     {nbYears: 10, rate: 1.25/100, insurance: 0},
                     {nbYears: 10, rate: 2.91/100, insurance: 0.18/100},
-                    {nbYears: 15, rate: 3.26/100, insurance: 0.4/100}
+                    {nbYears: 15, rate: 3.26/100, insurance: 0.4/100},
+                    {nbYears: 20, rate: 3.50/100, insurance: 0.4/100}
                 ]),
                 capabilities: new Backbone.Model({
                     capital: 65000
