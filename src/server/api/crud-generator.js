@@ -1,4 +1,5 @@
 var express = require('express');
+var _ = require('lodash');
 module.exports = crud;
 
 module.exports.idToObject = idToObject;
@@ -38,10 +39,12 @@ function crud(options) {
     );
     app.get(
         PATH,
+        requestToCriteria(),
         middlewares,
         function listModels(req, res, next) {
+            if (req)
             repository
-                .findAll()
+                .findAll(req.where)
                 .then(sendCollection(req, res, next, 200))
                 .catch(error500(req, res, next));
         }
@@ -163,6 +166,52 @@ function bodyToObject(validator, group, label) {
                 },
                 error400(req, res, next)
             );
+    };
+}
+
+// Middleware used to transform request parameters into a nedb query.
+function requestToCriteria() {
+    return function (req, res, next) {
+        req.where = req.where || {};
+        if (req.query.filter) {
+            _.each(req.query.filter, function validateKey(value, field) {
+                if (_.isObject(value)) {
+                    // this is an operator.
+                    // See https://github.com/louischatriot/nedb#operators-lt-lte-gt-gte-in-nin-ne-exists-regex
+                    // Only accepts the following operators
+                    var valid = [
+                        '$lt', '$lte',
+                        '$gt', '$gte',
+                        '$in',
+                        '$ne', '$nin',
+                        '$exists',
+                        '$regex'
+                    ];
+                    _.each(value, function validateOperator(val, operator) {
+                        if (valid.indexOf(operator) < 0) {
+                            return ;
+                        }
+                        req.where[field] = req.where[field] || {};
+                        try {
+                            req.where[field][operator] = JSON.parse(val);
+                        } catch (e) {
+                            req.where[field][operator] = val;
+                        }
+                    });
+
+                } else if (_.isString(value)) {
+                    try {
+                        req.where[field] = JSON.parse(value);
+                    } catch (e) {
+                        req.where[field] = value;
+                    }
+                } else {
+                    // do nothing
+                }
+            });
+        }
+        console.log(req.where);
+        next();
     };
 }
 

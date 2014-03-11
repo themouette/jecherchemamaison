@@ -7,7 +7,11 @@ define([
 
     var ItemView = ModelView.extend({
         tagName: 'li',
-        template: itemTpl
+        template: itemTpl,
+        className: function () {
+            var active = this.model.has('deleted_at') ? 'is_deleted' : 'is_active';
+            return ['classified-list-item', active].join(' ');
+        }
     });
 
     var List = CollectionView.extend({

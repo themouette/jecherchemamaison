@@ -12,9 +12,9 @@ var repository = module.exports = {
         });
     },
 
-    findAll: function () {
+    findAll: function (filter) {
         return new Promise(function(resolve, reject) {
-            db.find({}).sort({updated_at: -1}).exec(function (err, docs) {
+            db.find(filter || {}).sort({updated_at: -1}).exec(function (err, docs) {
                 if (err) return reject(err);
                 resolve(docs);
             });
@@ -47,6 +47,14 @@ var repository = module.exports = {
     },
 
     delete: function (doc) {
+        return this.softDelete(doc);
+    },
+
+    softDelete: function (doc) {
+        return this.update(doc, {deleted_at: new Date()});
+    },
+
+    hardDelete: function (doc) {
         return new Promise(function (resolve, reject) {
             db.remove({_id: ensureId(doc)}, {multi: false}, function (err, newDoc) {
                 if (err) return reject(err);

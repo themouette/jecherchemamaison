@@ -24,7 +24,31 @@ app.post('/classifieds/from-url',
 );
 app.use('/classifieds', crud({
         repository: require('./classifieds/repository'),
-        validator: require('./classifieds/validator')
+        validator: require('./classifieds/validator'),
+        middlewares: [
+            function (req, res, next) {
+                if (!req.where || "deleted_at" in req.where) {
+                    return next();
+                }
+                var exclude_active = 'exclude_active' in req.query;
+                var exclude_deleted = 'exclude_deleted' in req.query;
+
+                if (!exclude_deleted && !exclude_active) {
+                    return next();
+                }
+                if (exclude_deleted) {
+                    req.where.$or = req.where.$or || [];
+                    req.where.$or.push({ deleted_at: { $exists: false } });
+                    req.where.$or.push({ deleted_at: { $gte: new Date() } });
+                }
+                if (exclude_active) {
+                    req.where.$and = req.where.$and || [];
+                    req.where.$and.push({ deleted_at: { $exists: true } });
+                    req.where.$and.push({ deleted_at: { $lte: new Date() } });
+                }
+                next();
+            }
+        ]
     })
 );
 app.use(
