@@ -1,12 +1,14 @@
-<h5 class="classified-title" style="white-space:nowrap;overflow: hidden" title="{{name}}">{{name}}</h5>
+<div title="{{name}}">
+    <h5 class="classified-title" style="white-space:nowrap;overflow: hidden">{{name}}</h5>
 
-<h6 class="text-center">{{currency price}}</h6>
+    <h6 class="text-center">{{currency price}}</h6>
 
-<p class="classified-list-item-preview" title="{{name}}">
-<a href="{{urlToClassified this}}" class="th"><img src="{{first images}}" /></a>
-</p>
+    <p class="classified-list-item-preview">
+    <a href="{{urlToClassified this}}" class="th"><img src="{{first images}}" /></a>
+    </p>
 
-<ul class="inline-list">
-    <li>{{linkToClassified this}}</li>
-    <li>{{linkTo "Editer" "classifieds/" _id "/edit"}}</li>
-</ul>
+    <ul class="inline-list">
+        <li>{{linkToClassified this}}</li>
+        <li>{{linkTo "Editer" "classifieds/" _id "/edit"}}</li>
+    </ul>
+</div>
