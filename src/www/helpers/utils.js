@@ -46,6 +46,12 @@ define([
         encodeURIComponent: function(str) {
             return encodeURIComponent(str);
         },
+        date: function (date) {
+            if (!date) {return 'Inconnu';}
+            var d = new Date(date);
+            var options = {year: "numeric", month: "long", day: "numeric"};
+            return d.toLocaleDateString('fr-FR', options);
+        }
     };
 
     for (var helper in helpers) {
