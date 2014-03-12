@@ -1,4 +1,4 @@
-var repository = require('../server/api/classifieds/repository');
+var repository = require('../api/classifieds/repository');
 var urlRe = /(https?:\/\/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(?:\/[-a-zA-Z0-9@:%_\+.~#?&//=]*))/gi;
 
 var parse = module.exports.parse = function parse(fields, files, next) {

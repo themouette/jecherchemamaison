@@ -1,5 +1,5 @@
 var express = require('express');
-var parser = require('../../mailparser/parser');
+var parser = require('../mailparser/parser');
 
 var app = module.exports = express(),
     formidable = require('formidable');
