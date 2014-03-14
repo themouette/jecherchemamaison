@@ -2,7 +2,7 @@
   "name": "my-awesome-app",
   "dependencies": {
     "requirejs": "~2.1.*",
-    "foundation": "~5.0.3",
+    "foundation": "~5.2",
     "almond": "~0.2.*",
     "fossil-core": "https://github.com/themouette/fossil-core.git#doc-ochestration",
     "fossil-view": "~0.2.*",

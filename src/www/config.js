@@ -17,7 +17,8 @@ require.config({
 
         // jQuery defines itself as 'jquery', so you should
         // use this alias too.
-        'jquery': '<%= vendors %>/jquery/jquery',
+        'jquery': '<%= vendors %>/jquery/dist/jquery',
+        'modernizr': '<%= vendors %>/modernizr/modernizr',
         'underscore': '<%= vendors %>/underscore/underscore',
         'backbone': '<%= vendors %>/backbone/backbone',
         'handlebars': '<%= vendors %>/handlebars/handlebars',
@@ -38,7 +39,7 @@ require.config({
         'backbone.stickit': {deps: ['backbone'], exports: 'Backbone'},
         'handlebars': {exports: 'Handlebars'},
         'foundation': {
-            deps: ['jquery'],
+            deps: ['jquery', 'modernizr'],
             init: function (foundation) {
                 $(document).foundation();
             }
