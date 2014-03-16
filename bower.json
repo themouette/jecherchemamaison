@@ -3,11 +3,11 @@
   "dependencies": {
     "requirejs": "~2.1.*",
     "foundation": "~5.2",
-    "almond": "~0.2.*",
+    "almond": "0.2.*",
     "fossil-core": "https://github.com/themouette/fossil-core.git#doc-ochestration",
     "fossil-view": "~0.2.*",
     "handlebars": "~1.*",
     "backbone.stickit": "~0.7.0",
-    "requirejs-plugins": "~1.0.2"
+    "requirejs-plugins": "1.0.*"
   }
 }
