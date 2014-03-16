@@ -10,6 +10,9 @@ define([
     'collections/classified',
     'collections/message',
 
+    'views/home',
+    'collections/visit',
+
     'fossil/viewStore',
 
     // Don't care about return value.
@@ -18,7 +21,10 @@ define([
     'helpers/collection',
     'helpers/utils',
     'helpers/routing'
-], function (module, Module, View, ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, MessageCollection, ViewStore) {
+], function (module, Module, View,
+        ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, MessageCollection,
+        HomeView, VisitCollection,
+        ViewStore) {
     "use strict";
     var view;
 
@@ -35,9 +41,15 @@ define([
 
         startListener: function () {
             this.classifieds = new ClassifiedCollection();
+            this.visits = new VisitCollection();
             var store = this.store = new ViewStore();
             this.store.decorateModule(this);
 
+            store.set('dashboard', function (visits) {
+                return new HomeView({
+                    visits: visits
+                });
+            });
             store.set('classifiedList', function (collection) {
                 return new ClassifiedListView({
                     collection: collection
@@ -78,8 +90,10 @@ define([
         },
 
         index: function () {
-            var view = new View({template: 'Hello {{@name}}'});
-            this.useView(view, {}, {name: "Joe"});
+            this
+                .useView('loading')
+                .waitForFetch(this.visits, {reset: true})
+                .thenUseView('dashboard', 'error');
         },
 
 

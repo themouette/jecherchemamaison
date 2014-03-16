@@ -11,7 +11,7 @@ app.post('/classifieds/from-url',
     express.bodyParser(),
     express.methodOverride(),
     function (req, res, next) {
-        var crawl = require('../../crawler/crawler');
+        var crawl = require('../crawler/crawler');
         var url = req.body.url;
         if (!url) {
             return res.send('url parameter is mandatory', 400);
@@ -26,6 +26,9 @@ app.use('/classifieds', crud({
         repository: require('./classifieds/repository'),
         validator: require('./classifieds/validator'),
         middlewares: [
+            // Add a filter to exclude active or deleted classifieds.
+            //
+            // Just pass `exclude_deleted` or `exclude_active` query string paramter.
             function (req, res, next) {
                 if (!req.where || "deleted_at" in req.where) {
                     return next();
@@ -70,6 +73,35 @@ app.use(
                 next();
             }
         ]
+    })
+);
+app.use(
+    '/classifieds',
+    // and finally the crud middleware.
+    crud({
+        repository: require('./visits/repository'),
+        validator: require('./visits/validator'),
+        path: '/:classified_id/visits',
+        middlewares: [
+            // validate classified exists
+            crud.idToObject(require('./classifieds/repository'), 'classified_id', 'classified'),
+            // force classified_id in body.
+            // Note that it does not override existing value.
+            function insertClassifiedId(req, res, next) {
+                if (req.body && !("classified_id" in req.body)) {
+                    req.body.classified_id = req.params.classified_id;
+                }
+                next();
+            }
+        ]
+    })
+);
+app.use(
+    '/visits',
+    // and finally the crud middleware.
+    crud({
+        repository: require('./visits/repository'),
+        validator: require('./visits/validator')
     })
 );
 
