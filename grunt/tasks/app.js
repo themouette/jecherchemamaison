@@ -62,7 +62,8 @@ module.exports = function (grunt) {
                 "paths": {
                     "kernel": "kernel",
                     "templates": "../../<%= config.public.templates %>"
-                }
+                },
+                "optimize": "none"
             },
             "main": {
                 "options": {
@@ -85,6 +86,11 @@ module.exports = function (grunt) {
                     "<%= config.www.bower %>/almond/almond.js",
                     "<%= config.public.mainjs %>" ],
                 "dest": "<%= config.public.mainjs %>"
+            }
+        },
+        "uglify": {
+            "app-kernel-release": {
+                "files": { "<%= config.public.mainjs %>": "<%= config.public.mainjs %>" }
             }
         },
         "watch": {
@@ -121,7 +127,9 @@ module.exports = function (grunt) {
         // prepend config file to "<%= config.public.mainjs %>"
         'requirejs-config:release',
         // prepend almond
-        'concat:app-kernel-release'
+        'concat:app-kernel-release',
+        // uglify build
+        'uglify:app-kernel-release'
     ]);
 };
 
