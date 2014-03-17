@@ -2,7 +2,7 @@
 <h3>credit line</h3>
 <div class="small-3 columns">Simuler une proposition à </div>
 <div class="small-9 columns">
-    <input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" /> €
+    <input type="number" name="proposal" value="{{price}}" step="1000" style="display:inline-block; width: 30%; text-align:right;" /> €
      <a href="#" class="button secondary tiny proposal-reset">reset</a>
     {{#if difference}}
     <span class="{{rateClass}} radius label">Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>
