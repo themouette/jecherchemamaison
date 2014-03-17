@@ -12,7 +12,7 @@ define([
     'services/financial',
     'templates/classified/_images6',
     'async!https://maps.googleapis.com/maps/api/js?sensor=false'
-], function ($, tpl, layoutTpl, messagesTpl, creditTpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
+], function ($, tpl, layoutTpl, messagesTpl, creditTpl, utils, RegionManager, CollectionView, ModelView, View, Financial) {
 
     var Show = ModelView.extend({
         template: tpl,
@@ -166,7 +166,7 @@ define([
         }
     });
 
-    var Layout = RegionMagager.extend({
+    var Layout = RegionManager.extend({
         recycle: false,
         template: layoutTpl,
         regions: {
