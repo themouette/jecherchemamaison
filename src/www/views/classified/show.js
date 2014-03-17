@@ -1,6 +1,9 @@
 define([
     'jquery',
     'templates/classified/show',
+    'templates/classified/show/layout',
+    'templates/classified/show/messages',
+    'templates/classified/show/credit',
     'fossil/utils',
     'fossil/views/regionManager',
     'fossil/views/collection',
@@ -9,7 +12,7 @@ define([
     'services/financial',
     'templates/classified/_images6',
     'async!https://maps.googleapis.com/maps/api/js?sensor=false'
-], function ($, tpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
+], function ($, tpl, layoutTpl, messagesTpl, creditTpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
 
     var Show = ModelView.extend({
         template: tpl,
@@ -108,38 +111,11 @@ define([
             tagName: 'li',
             template: '{{linkTo title "classified/" classified_id "/messages/" _id}}'
         }),
-        template: '<h3>messages</h3><ul></ul>'
+        template: messagesTpl
     });
 
     var CreditLine = View.extend({
-        template: [
-            '<h3>credit line</h3>',
-            '<div class="small-3 columns">Simuler une proposition à </div>',
-            '<div class="small-9 columns">',
-                '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" /> €',
-                ' <a href="#" class="button secondary tiny proposal-reset">reset</a>',
-                '{{#if difference}}',
-                '<span class="{{rateClass}} radius label">Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>',
-                '{{/if}}',
-            '</div>',
-            '<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>',
-            '<table style="width: 100%;">',
-            '<thead><tr>',
-                '<th>Durée</th>',
-                '<th>Taux global</th>',
-                '<th>Mensualités</th>',
-                '<th>Charges et taxes comprises</th>',
-            '</tr></thead>',
-            '{{#each scenarios}}',
-                '<tr>',
-                    '<th>{{nbYears}} ans</th>',
-                    '<th>{{percent rate}}</th>',
-                    '<td>{{currency monthly}}</td>',
-                    '<td><strong>{{currency total}}</strong></td>',
-                '</tr>',
-            '{{/each}}',
-            '</table>'
-        ].join('\n'),
+        template: creditTpl,
         initialize: function (options) {
             utils.copyOption(['rates', 'capabilities'], this, options);
             this.price = this.model.get('price');
@@ -192,11 +168,7 @@ define([
 
     var Layout = RegionMagager.extend({
         recycle: false,
-        template: [
-            '<div class="classified row"></div>',
-            '<div class="messages row">Here comes messages</div>',
-            '<div class="credit-line row"></div>'
-            ].join(''),
+        template: layoutTpl,
         regions: {
             'classified': '.classified',
             'messages': '.messages',
