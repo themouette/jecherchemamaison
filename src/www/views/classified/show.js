@@ -1,6 +1,6 @@
 define([
     'jquery',
-    'templates/classified/show',
+    'templates/classified/show/show',
     'templates/classified/show/layout',
     'templates/classified/show/messages',
     'templates/classified/show/credit',
@@ -18,7 +18,8 @@ define([
         template: tpl,
 
         events: {
-            'click .classified-delete': 'deleteClassified'
+            'click .classified-delete': 'deleteClassified',
+            'click .classified-main-image': 'showClearing'
         },
         initialize: function () {
             this
@@ -27,6 +28,11 @@ define([
                 })
                 .on('on:plugins:detach', function () {
                 });
+        },
+
+        showClearing: function (e) {
+            e.preventDefault();
+            this.$('.classified-thumbnails a:first-of-type').trigger('click');
         },
 
         deleteClassified: function (e) {
@@ -175,7 +181,16 @@ define([
             'credit-line': '.credit-line'
         },
         initialize: function (options) {
-            utils.copyOption(['messages', 'classified'], this, options);
+            utils.copyOption(['messages', 'classified', 'rates'], this, options);
+            if (!this.messages) {
+              throw new Error('You must provide a messages collection to show layout');
+            }
+            if (!this.classified) {
+              throw new Error('You must provide a classified model to show layout');
+            }
+            if (!this.rates) {
+              throw new Error('You must provide a rates collection to show layout');
+            }
             var classifiedView = new Show({
                 model: this.classified
             });
@@ -184,12 +199,12 @@ define([
             });
             var creditView = new CreditLine({
                 model: this.classified,
-                rates: new Backbone.Collection([
+                rates: this.rates /*new Backbone.Collection([
                     {nbYears: 10, rate: 1.25/100, insurance: 0},
                     {nbYears: 10, rate: 2.91/100, insurance: 0.18/100},
                     {nbYears: 15, rate: 3.26/100, insurance: 0.4/100},
                     {nbYears: 20, rate: 3.50/100, insurance: 0.4/100}
-                ]),
+                ])*/,
                 capabilities: new Backbone.Model({
                     capital: 65000
                 })
