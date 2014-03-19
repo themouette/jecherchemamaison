@@ -47,7 +47,7 @@
         <div class="small-6 columns">
             <div class="classified-map"></div>
             <p>{{#if address}}
-            <a href="http://maps.google.com?q={{encodeURIComponent address}}">{{{nl2br address}}}</a>
+            <a href="http://maps.google.com?q={{encodeURIComponent address}}" target="_blank">{{{nl2br address}}}</a>
             {{else}}
                 Adresse inconnue.
             {{/if}}
