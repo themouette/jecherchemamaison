@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "express": "~3.4.8",
+    "express-users": "^0.1.0",
     "lodash": "*",
     "es6-promise": "~0.1.1",
     "nedb": "~0.10.0",
