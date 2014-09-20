@@ -15,9 +15,6 @@ function crud(options) {
     var ID_PATH = removeTrailingSlash(PATH) + '/:id';
     var app = express();
 
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
-
     // Register POST route.
     //
     // Validates data and insert a new object.

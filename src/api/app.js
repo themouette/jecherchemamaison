@@ -8,8 +8,6 @@ var cloudinmail = require('./cloudmailin');
 app.use('/cloudmailin', cloudinmail);
 
 app.post('/classifieds/from-url',
-    express.bodyParser(),
-    express.methodOverride(),
     function (req, res, next) {
         var crawl = require('../crawler/crawler');
         var url = req.body.url;
