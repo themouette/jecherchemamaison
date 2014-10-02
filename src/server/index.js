@@ -8,17 +8,11 @@ var methodOverride  = require('method-override');
 var session         = require('express-session');
 var flash           = require('connect-flash');
 var passport        = require('passport');
-var expressUsers    = require('express-users');
 
 var config          = require('../config');
 
 var api     = require('../api/app');
-var users   = expressUsers({
-    store: 'nedb',
-    nedb: {
-        fileName: path.join(config.data.databases, 'users')
-    }
-});
+var users   = config.users;
 
 
 app
