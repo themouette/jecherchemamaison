@@ -7,7 +7,8 @@
   "scripts": {
     "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
     "start": "src/server/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "grunt dev"
   },
   "author": "",
   "license": "MIT",
