@@ -1,9 +1,33 @@
 var express = require('express');
+
 var app = module.exports = express();
 
 var crud = require('./crud-generator');
-
 var cloudinmail = require('./cloudmailin');
+var users  = require('../config').users;
+
+var debug  = require('debug')('jcmm:api:app');
+
+var securityMiddlewares = [
+        // User must be authenticated
+        users.requireAuthentication(),
+        // On criteria requests, add a filter by owner
+        function filterForUser(req, res, next) {
+            if (!req.where || "deleted_at" in req.where) {
+                return next();
+            }
+            req.where.owner_id = req.user.id;
+            next();
+        },
+        // Update form data with a owner_id property
+        // This property will be saved
+        function isModelProperty(req, res, next) {
+            if (req.body) {
+                req.body.owner_id = req.user.id;
+            }
+            next();
+        }
+    ];
 
 app.use('/cloudmailin', cloudinmail);
 
@@ -12,10 +36,13 @@ app.post('/classifieds/from-url',
         var crawl = require('../crawler/crawler');
         var url = req.body.url;
         if (!url) {
-            return res.send('url parameter is mandatory', 400);
+            return res.status(400).send('url parameter is mandatory');
         }
         crawl(url, function (err, classified) {
-            if (err) return res.send(err.message, 500);
+            if (err) {
+                debug(err);
+                return res.status(500).send(err.message);
+            }
             res.send(classified);
         });
     }
@@ -23,7 +50,7 @@ app.post('/classifieds/from-url',
 app.use('/classifieds', crud({
         repository: require('./classifieds/repository'),
         validator: require('./classifieds/validator'),
-        middlewares: [
+        middlewares: securityMiddlewares.concat([
             // Add a filter to exclude active or deleted classifieds.
             //
             // Just pass `exclude_deleted` or `exclude_active` query string paramter.
@@ -49,7 +76,7 @@ app.use('/classifieds', crud({
                 }
                 next();
             }
-        ]
+        ])
     })
 );
 app.use(
@@ -59,7 +86,7 @@ app.use(
         repository: require('./messages/repository'),
         validator: require('./messages/validator'),
         path: '/:classified_id/messages',
-        middlewares: [
+        middlewares: securityMiddlewares.concat([
             // validate classified exists
             crud.idToObject(require('./classifieds/repository'), 'classified_id', 'classified'),
             // force classified_id in body.
@@ -70,7 +97,7 @@ app.use(
                 }
                 next();
             }
-        ]
+        ])
     })
 );
 app.use(
@@ -80,7 +107,7 @@ app.use(
         repository: require('./visits/repository'),
         validator: require('./visits/validator'),
         path: '/:classified_id/visits',
-        middlewares: [
+        middlewares: securityMiddlewares.concat([
             // validate classified exists
             crud.idToObject(require('./classifieds/repository'), 'classified_id', 'classified'),
             // force classified_id in body.
@@ -91,7 +118,7 @@ app.use(
                 }
                 next();
             }
-        ]
+        ])
     })
 );
 app.use(
@@ -99,13 +126,15 @@ app.use(
     // and finally the crud middleware.
     crud({
         repository: require('./visits/repository'),
-        validator: require('./visits/validator')
+        validator: require('./visits/validator'),
+        middlewares: securityMiddlewares
     })
 );
 
 app.use(function handleError(err, req, res, next) {
     if (!err) next();
-    res.send(err.message || 'unknown error', 500);
+    debug(err);
+    res.status(500).send(err.message || 'unknown error');
 });
 
 

@@ -59,12 +59,12 @@ app
 
 app
     .use(users)
-    .get('/', function (req, res, next) {
-        if (req.isAuthenticated()) {
-            return res.redirect('/app');
-        }
-        return res.redirect('/login');
-    })
+    //.get('/', function (req, res, next) {
+    //    if (req.isAuthenticated()) {
+    //        return res.redirect('/app');
+    //    }
+    //    return res.redirect('/login');
+    //})
     .use('/app', users.requireAuthentication(), express.static('public'))
     .use('/api', api)
     ;

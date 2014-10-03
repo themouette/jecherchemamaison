@@ -8,8 +8,8 @@
     "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
     "start": "src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "DEBUG=users:* grunt dev",
-    "serve-dev": "PORT=1337 DEBUG=users:* nodemon src/server/index-dev.js"
+    "dev": "DEBUG=jcmm:*,users:* grunt dev",
+    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon src/server/index-dev.js"
   },
   "author": "",
   "license": "MIT",
@@ -42,6 +42,7 @@
     "casperjs": "~1.1.0-beta3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.3.3",
+    "debug": "^2.0.0",
     "es6-promise": "~0.1.1",
     "express": "^4.6.1",
     "express-session": "^1.8.2",
