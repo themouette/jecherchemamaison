@@ -1,6 +1,8 @@
 var path = require('path');
 var root = path.resolve(__dirname, '..', 'data');
 
+var expressUsers    = require('express-users');
+
 console.log('-------------------->');
 console.log('Data store: "%s"', root);
 console.log('-------------------->');
@@ -13,11 +15,13 @@ var config = module.exports = {
     }
 };
 
-var expressUsers    = require('express-users');
 config.users   = expressUsers({
     store: 'nedb',
     nedb: {
-        fileName: path.join(config.data.databases, 'users')
-    }
+        filename: path.join(config.data.databases, 'users.db')
+    },
+    data: [
+        {username: 'julien', pwd: 'pwd', email: 'mail@domain.ext'}
+    ]
 });
 
