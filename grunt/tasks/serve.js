@@ -44,7 +44,6 @@ module.exports = function (grunt) {
                     debug: true,
                     middleware: function (connect) {
                         return [
-                            connect.logger('dev'),
                             // serve bower components if exists
                             vendorsDir(connect),
                             // Then compiled assets if exists
