@@ -9,6 +9,16 @@
             "logConcurrentOutput": true
         },
         // Task to run concurrently
+        "tasks": ["app:dev", "style:dev", "templates:dev"]
+    },
+    "dev-serve": {
+        "options": {
+            // As many processes as there is
+            "limit": 4,
+            // Log tasks output
+            "logConcurrentOutput": true
+        },
+        // Task to run concurrently
         "tasks": ["serve:dev", "app:dev", "style:dev", "templates:dev"]
     }
 }

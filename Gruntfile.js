@@ -27,6 +27,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build:release', 'Build release code.', ['templates:release', 'app:release', 'style:release']);
 
     grunt.registerTask('dev', 'Start development environment.', ['concurrent:dev']);
+    grunt.registerTask('dev:serve', 'Start development environment.', ['concurrent:dev-serve']);
 
     grunt.registerTask('release', ['build:release']);
     grunt.registerTask('release:fix', 'Create a new fix release', ['build:release', 'bump:fix']);
