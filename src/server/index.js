@@ -7,7 +7,6 @@ var cookieParser    = require('cookie-parser');
 var methodOverride  = require('method-override');
 var session         = require('express-session');
 var flash           = require('connect-flash');
-var passport        = require('passport');
 
 var config          = require('../config');
 
@@ -41,8 +40,8 @@ app
     // setup flash
     .use(flash())
     // add passport
-    .use(passport.initialize())
-    .use(passport.session());
+    .use(users.passport.initialize())
+    .use(users.passport.session());
 
 // A simple middleware adding
 // flash messages to template context.
@@ -61,7 +60,8 @@ app
 app
     .use(express.static('public'))
     .use(users)
-    .use('/api', users.requireAuthentication(), api);
+    .use('/app', express.static('public'))
+    .use('/api', api);
 
 module.exports = app;
 
