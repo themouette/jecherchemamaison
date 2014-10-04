@@ -24,6 +24,7 @@
             // The compiled javascript main file.
             // ------------------------------------------
             "mainjs": "<%= config.public.js %>/main.js",
+            "vendorsjs": "<%= config.public.js %>/vendors.js",
 
             // ------------------------------------------
             // Where are compiled templates located
