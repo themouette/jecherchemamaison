@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ super() }} -
+    {% block expressUserTitle %}
+    {{expressUsers.username}}
+    {% endblock %}
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="/css/main.css" type="text/css" media="screen" title="main file" charset="utf-8">
+{% endblock %}
+{% block scripts %}
+    <script src="/vendors/jquery/dist/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/vendors/foundation/js/foundation.min.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).foundation();
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="small-12 large-6 large-centered columns">
+    {% block expressUserContent %}
+    {% endblock %}
+</div>
+{% endblock %}

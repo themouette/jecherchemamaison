@@ -9,7 +9,8 @@ var config = module.exports = {
     "data": {
         "dir": root,
         "screenshots": root+"/screenshots",
-        "databases": root+"/databases"
+        "databases": root+"/databases",
+        "views": path.join(__dirname, 'views')
     }
 };
 
@@ -23,7 +24,8 @@ config.users   = expressUsers({
     },
     data: [
         {username: 'julien', pwd: 'pwd', email: 'mail@domain.ext'}
-    ]
+    ],
+    views: [config.data.views, path.join(config.data.views, 'users')]
 });
 
 var session         = require('express-session');

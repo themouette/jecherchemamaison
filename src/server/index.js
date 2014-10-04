@@ -1,14 +1,19 @@
+var path            = require('path');
+
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var methodOverride  = require('method-override');
 var flash           = require('connect-flash');
+var nunjucks        = require('nunjucks');
 
 var config          = require('../config');
 
-var api     = require('../api/app');
-var users   = config.users;
+var users       = config.users;
+var api         = require('../api/app');
+var landing     = require('../landing/app');
+var dashboard   = require('../dashboard/app');
 
 
 app
@@ -36,6 +41,11 @@ app
     .use(users.passport.initialize())
     .use(users.passport.session());
 
+nunjucks.configure(path.resolve(path.join(__dirname, '..', 'views')), {
+  autoescape: true,
+  express   : app
+});
+
 // A simple middleware adding
 // flash messages to template context.
 // Simply access flash messages as `flash` variable
@@ -58,7 +68,8 @@ app
     //    }
     //    return res.redirect('/login');
     //})
-    .use('/app', users.requireAuthentication(), express.static('public'))
+    .use(landing)
+    .use('/app', dashboard)
     .use('/api', api)
     ;
 
