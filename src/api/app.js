@@ -1,6 +1,7 @@
 var express = require('express');
+var Router = express.Router;
 
-var app = module.exports = express();
+var app = module.exports = new Router();
 
 var crud = require('./crud-generator');
 var cloudinmail = require('./cloudmailin');

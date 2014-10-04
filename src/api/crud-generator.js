@@ -1,5 +1,7 @@
 var express = require('express');
 var _ = require('lodash');
+var Router = express.Router;
+
 module.exports = crud;
 
 module.exports.idToObject = idToObject;
@@ -13,7 +15,7 @@ function crud(options) {
     var validator = options.validator;
     var PATH = options.path || '/';
     var ID_PATH = removeTrailingSlash(PATH) + '/:id';
-    var app = express();
+    var app = new Router();
 
     // Register POST route.
     //

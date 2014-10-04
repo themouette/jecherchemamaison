@@ -1,11 +1,8 @@
-var path            = require('path');
-
 var express         = require('express');
 var app             = express();
 var bodyParser      = require('body-parser');
 var cookieParser    = require('cookie-parser');
 var methodOverride  = require('method-override');
-var session         = require('express-session');
 var flash           = require('connect-flash');
 
 var config          = require('../config');
@@ -32,11 +29,7 @@ app
     // use cookie parser
     .use(cookieParser())
     // setup session
-    .use(session({
-            resave: false, // don't save session if unmodified
-            saveUninitialized: false, // don't create session until something stored
-            secret: 'shhhh, very secret'
-        }))
+    .use(config.session)
     // setup flash
     .use(flash())
     // add passport
