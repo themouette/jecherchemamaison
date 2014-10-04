@@ -62,15 +62,11 @@ app
 
 app
     .use(users)
-    //.get('/', function (req, res, next) {
-    //    if (req.isAuthenticated()) {
-    //        return res.redirect('/app');
-    //    }
-    //    return res.redirect('/login');
-    //})
     .use(landing)
     .use('/app', dashboard)
     .use('/api', api)
+    // Then compiled assets if exists
+    .use('/', express.static('public'))
     ;
 
 module.exports = app;

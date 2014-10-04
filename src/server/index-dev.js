@@ -10,8 +10,6 @@ app.use('/vendors', express.static('bower_components'));
 // Then application
 var main = require('./index');
 app.use(main);
-// Then compiled assets if exists
-app.use('/', express.static('public'));
 // Finally, js www sources
 app.use('/js', express.static('src/www'));
 

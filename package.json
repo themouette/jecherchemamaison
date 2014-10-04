@@ -6,7 +6,7 @@
   "unsafe-perm": true,
   "scripts": {
     "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
-    "start": "src/server/index.js",
+    "start": "./node_modules/.bin/forever src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
     "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon src/server/index-dev.js"
@@ -48,6 +48,7 @@
     "express": "^4.6.1",
     "express-session": "^1.8.2",
     "express-users": "^0.3.0",
+    "forever": "^0.11.1",
     "formidable": "~1.0.14",
     "lodash": "*",
     "method-override": "^2.2.0",
