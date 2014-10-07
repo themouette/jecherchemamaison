@@ -206,7 +206,7 @@ define([
                 model: this.classified,
                 rates: this.rates ,
                 capabilities: new Backbone.Model({
-                    capital: 65000
+                    capital: 0//65000
                 })
             });
             this.registerView(classifiedView, "classified");
