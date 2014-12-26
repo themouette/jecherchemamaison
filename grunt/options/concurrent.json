@@ -14,7 +14,7 @@
     "dev-serve": {
         "options": {
             // As many processes as there is
-            "limit": 4,
+            "limit": 5,
             // Log tasks output
             "logConcurrentOutput": true
         },
