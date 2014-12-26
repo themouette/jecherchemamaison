@@ -1,5 +1,7 @@
 var express = require('express');
 var _ = require('lodash');
+var Router = express.Router;
+
 module.exports = crud;
 
 module.exports.idToObject = idToObject;
@@ -13,10 +15,7 @@ function crud(options) {
     var validator = options.validator;
     var PATH = options.path || '/';
     var ID_PATH = removeTrailingSlash(PATH) + '/:id';
-    var app = express();
-
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
+    var app = new Router();
 
     // Register POST route.
     //
@@ -79,7 +78,7 @@ function crud(options) {
             repository
                 .delete(req.model)
                 .then(function () {
-                    res.send(null, 204);
+                    res.status(204).send(null);
                 });
         }
     );
@@ -218,7 +217,7 @@ function requestToCriteria() {
 // Up to now, only json is supported.
 function sendCollection(req, res, next, status) {
     return function (docs) {
-        res.send(docs, status);
+        res.status(status).send(docs);
     };
 }
 
@@ -226,7 +225,7 @@ function sendCollection(req, res, next, status) {
 // Up to now, only json is supported.
 function sendDocument(req, res, next, status) {
     return function (doc) {
-        res.send(doc, status);
+        res.status(status).send(doc);
     };
 }
 

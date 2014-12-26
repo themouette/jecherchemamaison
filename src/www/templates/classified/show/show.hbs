@@ -1,0 +1,59 @@
+{{viewClass "classified-show"}}
+
+
+<div class="small-12 columns">
+    <h3 class="classified-title">{{name}}</h3>
+</div>
+
+
+<div class="small-3 columns text-right">
+    <h3>{{price}} €</h3>
+    <ul class="no-bullet">
+        <li>Surface: {{surface}} m2</li>
+        <li>Etage: {{etage}}</li>
+    </ul>
+    <ul class="no-bullet">
+        <li>Charges: {{charges}} € / mois</li>
+        <li>Foncier: {{taxe_foncier}} € / an</li>
+        <li>habitation: {{taxe_habitation}} € / an</li>
+    </ul>
+    <ul class="no-bullet">
+        <li>
+            {{linkTo "Retour à la liste" "classifieds" class="button"}}
+        </li>
+        <li>
+            {{linkTo "Editer" "classifieds/" id "/edit" class="button secondary tiny"}}
+            <a href="{{this.link}}"  class="button secondary tiny" target="_blank">Voir sur le site</a>
+        </li>
+        <li>
+        <p>{{#linkToEvent "foo:bar"}}
+                Envoyer un message
+                {{/linkToEvent}}</p>
+        </li>
+        <li>
+            <a href="#" class="classified-delete button alert tiny">Supprimer</a>
+        </li>
+    </ul>
+    <ul class="no-bullet">
+        <li>Ajoutée le: {{date created_at}}</li>
+        <li>Modifié le: {{date updated_at}}</li>
+    </ul>
+</div>
+<div class="small-9 columns">
+    <div class="row nested">
+        <div class="small-6 columns">
+            <a class="th classified-main-image"><img src="{{first images}}" /></a>
+        </div>
+        <div class="small-6 columns">
+            <div class="classified-map"></div>
+            <p>{{#if address}}
+            <a href="http://maps.google.com?q={{encodeURIComponent address}}" target="_blank">{{{nl2br address}}}</a>
+            {{else}}
+                Adresse inconnue.
+            {{/if}}
+            </p>
+        </div>
+    </div>
+    <p>{{{nl2br content}}}</p>
+    <div>{{> classified/_images6}}</div>
+</div>

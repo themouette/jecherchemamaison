@@ -1,0 +1,61 @@
+{% extends "userLandingLayout.html" %}
+{% import "forms.html" as forms %}
+{% block bodyclass %}signup-page access-page has-full-screen-bg{% endblock %}
+{% block expressUserTitle %}Register{% endblock %}
+{% block expressUserContent %}
+    <div class="sections-wrapper">
+        <!-- ******Login Section****** -->
+        <section class="signup-section access-section section">
+            <div class="container">
+                <div class="row">
+                    <div class="form-box col-md-8 col-sm-12 col-xs-12 col-md-offset-2 col-sm-offset-0 xs-offset-0">
+                        <div class="form-box-inner">
+                            <h2 class="title text-center">Sign up now</h2>
+                            <p class="intro text-center">It only takes 3 minutes!</p>
+                            <div class="row">
+                                <div class="form-container col-md-5 col-sm-12 col-xs-12">
+                                    <form class="signup-form" action="/register" method="POST">
+                                        {{ forms.globalErrors(errors.globals) }}
+                                        <div class="form-group email">
+                                            {{forms.fieldErrors(errors.fields.email, fieldname=email)}}
+                                            <label class="sr-only" for="signup-email">Votre mail</label>
+                                            <input id="signup-email" name="email" type="email" class="form-control login-email" placeholder="Votre email" value="{{ user.email | escape }}">
+                                        </div><!--//form-group-->
+                                        <div class="form-group email">
+                                            {{forms.fieldErrors(errors.fields.username, fieldname=username)}}
+                                            <label class="sr-only" for="signup-email">Choisissez un nom d'utilisateur</label>
+                                            <input id="signup-username" name="username" type="text" class="form-control login-email" placeholder="Nom d'utilisateur" value="{{ user.username | escape }}">
+                                        </div><!--//form-group-->
+                                        <div class="form-group password">
+                                            {{forms.fieldErrors(errors.fields.password, fieldname=password)}}
+                                            <label class="sr-only" for="signup-password">Your password</label>
+                                            <input id="signup-password" name="password" type="password" class="form-control login-password" placeholder="Mot de passe">
+                                        </div><!--//form-group-->
+                                        <div class="form-group password">
+                                            {{forms.fieldErrors(errors.fields.password_repeat, fieldname=password_repeat)}}
+                                            <label class="sr-only" for="signup-password-repeat">Répétez votre mot de passe</label>
+                                            <input id="signup-password-repeat" name="password_repeat" type="password" class="form-control login-password" placeholder="Mot de passe">
+                                        </div><!--//form-group-->
+                                        <button type="submit" class="btn btn-block btn-cta-primary">Sign up</button>
+                                        <p class="note">By signing up, you agree to our terms of services and privacy policy.</p>
+                                        <p class="lead">Already have an account? <a class="login-link" id="login-link" href="login.html">Log in</a></p>
+                                    </form>
+                                </div><!--//form-container-->
+                                <div class="social-btns col-md-5 col-sm-12 col-xs-12 col-md-offset-1 col-sm-offset-0 col-sm-offset-0">
+                                    <div class="divider"><span>Or</span></div>
+                                    <ul class="list-unstyled social-login">
+                                        <li><button class="twitter-btn btn" type="button"><i class="fa fa-twitter"></i>Sign up with Twitter</button></li>
+                                        <li><button class="facebook-btn btn" type="button"><i class="fa fa-facebook"></i>Sign up with Facebook</button></li>
+                                        <li><button class="github-btn btn" type="button"><i class="fa fa-github-alt"></i>Sign up with Github</button></li>
+                                        <li><button class="google-btn btn" type="button"><i class="fa fa-google-plus"></i>Sign up with Google</button></li>
+                                    </ul>
+                                    <p class="note">Don't worry, we won't post anything without your permission.</p>
+                                </div><!--//social-login-->
+                            </div><!--//row-->
+                        </div><!--//form-box-inner-->
+                    </div><!--//form-box-->
+                </div><!--//row-->
+            </div><!--//container-->
+        </section><!--//contact-section-->
+    </div><!--//upper-wrapper-->
+{% endblock %}

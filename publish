@@ -1,2 +1,11 @@
 #!/usr/bin/env bash
-git checkout -b release && grunt release && git add -f public && git commit -m 'Latest release' && git push -f deploy release:master && git checkout master && git branch -D release
+ORIG_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+git checkout -b release && \
+    grunt release && \
+    git add -f public && \
+    git commit -m 'Latest release' && \
+    git push -f deploy release:master && \
+    git tag "release-`date +'%F-%s'`"
+
+git checkout "${ORIG_BRANCH}"&& \
+     git branch -D release

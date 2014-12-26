@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}recherche.immo{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        {% block head %}
+        <link rel="stylesheet" href="/css/landing.css">
+        {% endblock %}
+    </head>
+    <body>
+
+        {% block menu %}
+        <div class="contain-to-grid">
+            <nav class="top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="/">recherche.immo</a></h1>
+                </li>
+                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+            </ul>
+
+            <!-- Right Nav Section -->
+            <section class="top-bar-section">
+                <ul class="right">
+                    {% if expressUsers.isAuthenticated %}
+                    <li><a href="/app#classifieds/new" class="button success round">Nouvelle annonce</a></li>
+                    <li class="has-dropdown">
+                        <a href="/me" class="current-user">{{expressUsers.current.username}}</a>
+                        <ul  class="dropdown">
+                            <li><a href="/me/edit">Modifier mon compte</a></li>
+                            <li><a href="/me/password">Changer mon mot de passe</a></li>
+                            <li><a href="/logout">Se déconnecter</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li><a href="/register">Créer un compte</a></li>
+                    <li><a href="/login">Se connecter</a></li>
+                    {% endif %}
+                </ul>
+
+                <!-- Left Nav Section -->
+                {% if expressUsers.isAuthenticated %}
+                <ul class="left">
+                    <li><a href="/app#classifieds">Annonces</a></li>
+                </ul>
+                {% endif %}
+            </section>
+            </nav>
+        </div>
+        {% endblock %}
+
+        {% block messages %}
+        <div id="l-messages" class="row">
+            <div class="small-12 large-6 large-centered columns">
+                {% for error in flash.error %}
+                <p class="alert-box error error-global">{{error}}</p>
+                {% endfor %}
+                {% for success in flash.success %}
+                <p class="alert-box success success-global">{{success}}</p>
+                {% endfor %}
+                {% for info in flash.info %}
+                <p class="alert-box info info-global">{{info}}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endblock %}
+
+        <section id="main" role="main" class="l-wrapper row">
+            {% block content %}{% endblock %}
+        </section>
+
+        {% block scripts %}
+            <script src="/js/vendors.js" type="text/javascript" charset="utf-8"></script>
+            <script type="text/javascript" charset="utf-8">
+                $(document).foundation();
+            </script>
+        {% endblock %}
+    </body>
+</html>
+

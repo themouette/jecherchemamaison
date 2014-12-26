@@ -86,6 +86,12 @@ module.exports = function (grunt) {
                     "<%= config.www.bower %>/almond/almond.js",
                     "<%= config.public.mainjs %>" ],
                 "dest": "<%= config.public.mainjs %>"
+            },
+            "vendors": {
+                "src": [
+                    "<%= config.www.bower %>/jquery/dist/jquery.min.js",
+                    "<%= config.www.bower %>/foundation/js/foundation.min.js"],
+                "dest": "<%= config.public.vendorsjs %>"
             }
         },
         "uglify": {
@@ -108,6 +114,8 @@ module.exports = function (grunt) {
         'requirejs-config:dev',
         // append kernel and prepend require.js
         'concat:app-kernel-dev',
+        // build libs for landing and users pages
+        'concat:vendors'
     ]);
 
     grunt.registerTask('app:dev', 'build application for development environment', [
@@ -128,6 +136,8 @@ module.exports = function (grunt) {
         'requirejs-config:release',
         // prepend almond
         'concat:app-kernel-release',
+        // build libs for landing and users pages
+        'concat:vendors',
         // uglify build
         'uglify:app-kernel-release'
     ]);

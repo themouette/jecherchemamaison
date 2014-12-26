@@ -1,6 +1,9 @@
 define([
     'jquery',
-    'templates/classified/show',
+    'templates/classified/show/show',
+    'templates/classified/show/layout',
+    'templates/classified/show/messages',
+    'templates/classified/show/credit',
     'fossil/utils',
     'fossil/views/regionManager',
     'fossil/views/collection',
@@ -9,13 +12,14 @@ define([
     'services/financial',
     'templates/classified/_images6',
     'async!https://maps.googleapis.com/maps/api/js?sensor=false'
-], function ($, tpl, utils, RegionMagager, CollectionView, ModelView, View, Financial) {
+], function ($, tpl, layoutTpl, messagesTpl, creditTpl, utils, RegionManager, CollectionView, ModelView, View, Financial) {
 
     var Show = ModelView.extend({
         template: tpl,
 
         events: {
-            'click .classified-delete': 'deleteClassified'
+            'click .classified-delete': 'deleteClassified',
+            'click .classified-main-image': 'showClearing'
         },
         initialize: function () {
             this
@@ -24,6 +28,11 @@ define([
                 })
                 .on('on:plugins:detach', function () {
                 });
+        },
+
+        showClearing: function (e) {
+            e.preventDefault();
+            this.$('.classified-thumbnails a:first-of-type').trigger('click');
         },
 
         deleteClassified: function (e) {
@@ -108,38 +117,11 @@ define([
             tagName: 'li',
             template: '{{linkTo title "classified/" classified_id "/messages/" _id}}'
         }),
-        template: '<h3>messages</h3><ul></ul>'
+        template: messagesTpl
     });
 
     var CreditLine = View.extend({
-        template: [
-            '<h3>credit line</h3>',
-            '<div class="small-3 columns">Simuler une proposition à </div>',
-            '<div class="small-9 columns">',
-                '<input type="number" name="proposal" value="{{price}}" style="display:inline-block; width: 30%; text-align:right;" /> €',
-                ' <a href="#" class="button secondary tiny proposal-reset">reset</a>',
-                '{{#if difference}}',
-                '<span class="{{rateClass}} radius label">Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>',
-                '{{/if}}',
-            '</div>',
-            '<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>',
-            '<table style="width: 100%;">',
-            '<thead><tr>',
-                '<th>Durée</th>',
-                '<th>Taux global</th>',
-                '<th>Mensualités</th>',
-                '<th>Charges et taxes comprises</th>',
-            '</tr></thead>',
-            '{{#each scenarios}}',
-                '<tr>',
-                    '<th>{{nbYears}} ans</th>',
-                    '<th>{{percent rate}}</th>',
-                    '<td>{{currency monthly}}</td>',
-                    '<td><strong>{{currency total}}</strong></td>',
-                '</tr>',
-            '{{/each}}',
-            '</table>'
-        ].join('\n'),
+        template: creditTpl,
         initialize: function (options) {
             utils.copyOption(['rates', 'capabilities'], this, options);
             this.price = this.model.get('price');
@@ -190,20 +172,30 @@ define([
         }
     });
 
-    var Layout = RegionMagager.extend({
+    var Layout = RegionManager.extend({
         recycle: false,
-        template: [
-            '<div class="classified row"></div>',
-            '<div class="messages row">Here comes messages</div>',
-            '<div class="credit-line row"></div>'
-            ].join(''),
+        template: layoutTpl,
         regions: {
             'classified': '.classified',
             'messages': '.messages',
             'credit-line': '.credit-line'
         },
         initialize: function (options) {
-            utils.copyOption(['messages', 'classified'], this, options);
+            utils.copyOption(['messages', 'classified', 'rates'], this, options);
+            if (!this.messages) {
+              throw new Error('You must provide a messages collection to show layout');
+            }
+            if (!this.classified) {
+              throw new Error('You must provide a classified model to show layout');
+            }
+            if (!this.rates) {
+                this.rates = new Backbone.Collection([
+                    {nbYears: 10, rate: 1.25/100, insurance: 0},
+                    {nbYears: 10, rate: 2.91/100, insurance: 0.18/100},
+                    {nbYears: 15, rate: 3.26/100, insurance: 0.4/100},
+                    {nbYears: 20, rate: 3.50/100, insurance: 0.4/100}
+                ]);
+            }
             var classifiedView = new Show({
                 model: this.classified
             });
@@ -212,14 +204,9 @@ define([
             });
             var creditView = new CreditLine({
                 model: this.classified,
-                rates: new Backbone.Collection([
-                    {nbYears: 10, rate: 1.25/100, insurance: 0},
-                    {nbYears: 10, rate: 2.91/100, insurance: 0.18/100},
-                    {nbYears: 15, rate: 3.26/100, insurance: 0.4/100},
-                    {nbYears: 20, rate: 3.50/100, insurance: 0.4/100}
-                ]),
+                rates: this.rates ,
                 capabilities: new Backbone.Model({
-                    capital: 65000
+                    capital: 0//65000
                 })
             });
             this.registerView(classifiedView, "classified");

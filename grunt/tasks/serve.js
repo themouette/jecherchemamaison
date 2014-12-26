@@ -44,15 +44,15 @@ module.exports = function (grunt) {
                     debug: true,
                     middleware: function (connect) {
                         return [
-                            connect.logger('dev'),
                             // serve bower components if exists
-                            vendorsDir(connect),
-                            // Then compiled assets if exists
-                            publicDir(connect),
+                            //vendorsDir(connect),
                             // Then application
+                            // Everything else is handled in index-dev
                             serverApp(connect, 'config.server.dev'),
+                            // Then compiled assets if exists
+                            //publicDir(connect),
                             // Finally, js www sources
-                            jsSourcesDir(connect)
+                            //jsSourcesDir(connect)
                         ];
                     }
                 }
@@ -63,10 +63,10 @@ module.exports = function (grunt) {
                     middleware: function (connect) {
                         return [
                             connect.logger(),
-                            // Serve compiled assets if exists
-                            publicDir(connect),
                             // Then application
                             serverApp(connect, 'config.server.prod'),
+                            // Serve compiled assets if exists
+                            publicDir(connect),
                         ];
                     }
                 }

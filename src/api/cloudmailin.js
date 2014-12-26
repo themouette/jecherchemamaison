@@ -1,7 +1,8 @@
 var express = require('express');
+var Router = express.Router;
 var parser = require('../mailparser/parser');
 
-var app = module.exports = express(),
+var app = module.exports = new Router(),
     formidable = require('formidable');
 
 app.post('/', function(req, res){

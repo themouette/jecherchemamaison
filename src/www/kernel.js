@@ -6,6 +6,10 @@ require([
 ], function (Application, routing, template, window) {
     "use strict";
 
+    if (!$('#jccm-application')) {
+        return null;
+    }
+
     var app = new Application();
     app
         .use('routing', routing)

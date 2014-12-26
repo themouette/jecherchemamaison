@@ -1,0 +1,15 @@
+{% extends "landing/layout.html" %}
+
+{% block title %}
+    {{ super() }} -
+    {% block expressUserTitle %}
+    {{expressUsers.username}}
+    {% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class="small-12 large-6 large-centered columns">
+    {% block expressUserContent %}
+    {% endblock %}
+</div>
+{% endblock %}

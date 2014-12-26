@@ -1,0 +1,27 @@
+
+<h3>credit line</h3>
+<div class="small-3 columns">Simuler une proposition à </div>
+<div class="small-9 columns">
+    <input type="number" name="proposal" value="{{price}}" step="1000" style="display:inline-block; width: 30%; text-align:right;" /> €
+     <a href="#" class="button secondary tiny proposal-reset">reset</a>
+    {{#if difference}}
+    <span class="{{rateClass}} radius label">Baisse: <strong>{{currency difference}} ({{percent differenceRate}})</strong></span>
+    {{/if}}
+</div>
+<p>Total emprunté: {{currency borrowed}} (dont notaire ~ {{currency notaire}})</p>
+<table style="width: 100%;">
+<thead><tr>
+    <th>Durée</th>
+    <th>Taux global</th>
+    <th>Mensualités</th>
+    <th>Charges et taxes comprises</th>
+</tr></thead>
+{{#each scenarios}}
+    <tr>
+        <th>{{nbYears}} ans</th>
+        <th>{{percent rate}}</th>
+        <td>{{currency monthly}}</td>
+        <td><strong>{{currency total}}</strong></td>
+    </tr>
+{{/each}}
+</table>
