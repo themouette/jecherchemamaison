@@ -1,0 +1,64 @@
+{% extends "userLandingLayout.html" %}
+
+{% import "forms.html" as forms %}
+
+{% block expressUserTitle %}Login{% endblock %}
+
+{% block bodyclass %}signup-page access-page has-full-screen-bg{% endblock %}
+
+{% block expressUserContent %}
+<h3>Login</h3>
+{{ forms.globalErrors(errors.globals) }}
+<form action="/login" method="POST">
+    {{ forms.field("username", label="Username:", value=user.username, errors=errors.fields.username) }}
+    {{ forms.field("password", label="Password:", type="password", errors=errors.fields.password) }}
+    <p>
+    <input type="submit" value="Go" />
+    </p>
+</form>
+    <div class="sections-wrapper">
+        <!-- ******Login Section****** -->
+        <section class="login-section access-section section">
+            <div class="container">
+                <div class="row">
+                    <div class="form-box col-md-8 col-sm-12 col-xs-12 col-md-offset-2 col-sm-offset-0 xs-offset-0">
+                        <div class="form-box-inner">
+                            <h2 class="title text-center">Log in to Velocity</h2>
+                            <div class="row">
+                                <div class="form-container col-md-5 col-sm-12 col-xs-12">
+                                    <form class="login-form" action="/login" method="POST">
+                                        <div class="form-group email">
+                                            <label class="sr-only" for="login-email">Email ou nom d'utilisateur</label>
+                                            <input id="username" type="email" class="form-control login-email" placeholder="Email ou nom d'utilisateur">
+                                        </div><!--//form-group-->
+                                        <div class="form-group password">
+                                            <label class="sr-only" for="login-password">Mot de passe</label>
+                                            <input id="passwordpassword" type="password" class="form-control login-password" placeholder="Mot de passe">
+                                            <p class="forgot-password"><a href="#">Mot de passe oublié?</a></p>
+                                        </div><!--//form-group-->
+                                        <button type="submit" class="btn btn-block btn-cta-primary">Connexion</button>
+                                        <div class="checkbox remember">
+                                            <label>
+                                                <input type="checkbox"> Se souvenir de moi
+                                            </label>
+                                        </div><!--//checkbox-->
+                                         <p class="lead">Pas encore de compte recherche.immo? <br /><a class="signup-link" href="/register">Créer un compte</a></p>
+                                    </form>
+                                </div><!--//form-container-->
+                                <div class="social-btns col-md-5 col-sm-12 col-xs-12 col-md-offset-1 col-sm-offset-0 col-sm-offset-0">
+                                    <div class="divider"><span>Or</span></div>
+                                    <ul class="list-unstyled social-login">
+                                        <li><button class="twitter-btn btn" type="button"><i class="fa fa-twitter"></i>Log in with Twitter</button></li>
+                                        <li><button class="facebook-btn btn" type="button"><i class="fa fa-facebook"></i>Log in with Facebook</button></li>
+                                        <li><button class="github-btn btn" type="button"><i class="fa fa-github-alt"></i>Log in with Github</button></li>
+                                        <li><button class="google-btn btn" type="button"><i class="fa fa-google-plus"></i>Log in with Google</button></li>
+                                    </ul>
+                                </div><!--//social-btns-->
+                            </div><!--//row-->
+                        </div><!--//form-box-inner-->
+                    </div><!--//form-box-->
+                </div><!--//row-->
+            </div><!--//container-->
+        </section><!--//contact-section-->
+    </div><!--//upper-wrapper-->
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "userLandingLayout.html" %}
+{% import "forms.html" as forms %}
+{% block bodyclass %}signup-page access-page has-full-screen-bg{% endblock %}
+{% block expressUserTitle %}Register{% endblock %}
+{% block expressUserContent %}
+<h3>Register</h3>
+{{ forms.globalErrors(errors.globals) }}
+<form action="/register" method="POST">
+{{ forms.field("username", label="Username:", value=user.username, errors=errors.fields.username) }}
+{{ forms.field("password", label="Password:", type="password", errors=errors.fields.password) }}
+{{ forms.field("password_repeat", label="Repeat Password:", type="password", errors=errors.fields.password_repeat) }}
+{{ forms.field("email", label="Email:", value=user.email, errors=errors.fields.email) }}
+<p>
+<input type="submit" value="register" />
+</p>
+</form>
+{% endblock %}
