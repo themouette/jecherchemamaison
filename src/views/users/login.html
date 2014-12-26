@@ -7,15 +7,6 @@
 {% block bodyclass %}signup-page access-page has-full-screen-bg{% endblock %}
 
 {% block expressUserContent %}
-<h3>Login</h3>
-{{ forms.globalErrors(errors.globals) }}
-<form action="/login" method="POST">
-    {{ forms.field("username", label="Username:", value=user.username, errors=errors.fields.username) }}
-    {{ forms.field("password", label="Password:", type="password", errors=errors.fields.password) }}
-    <p>
-    <input type="submit" value="Go" />
-    </p>
-</form>
     <div class="sections-wrapper">
         <!-- ******Login Section****** -->
         <section class="login-section access-section section">
@@ -26,14 +17,17 @@
                             <h2 class="title text-center">Log in to Velocity</h2>
                             <div class="row">
                                 <div class="form-container col-md-5 col-sm-12 col-xs-12">
+                                    {{ forms.globalErrors(errors.globals) }}
                                     <form class="login-form" action="/login" method="POST">
                                         <div class="form-group email">
+                                            {{forms.fieldErrors(errors.fields.username, fieldname=username)}}
                                             <label class="sr-only" for="login-email">Email ou nom d'utilisateur</label>
-                                            <input id="username" type="email" class="form-control login-email" placeholder="Email ou nom d'utilisateur">
+                                            <input id="username" name="username" type="text" class="form-control login-email" placeholder="Email ou nom d'utilisateur" value="{{ username | escape }}">
                                         </div><!--//form-group-->
                                         <div class="form-group password">
+                                            {{forms.fieldErrors(errors.fields.password, fieldname=password)}}
                                             <label class="sr-only" for="login-password">Mot de passe</label>
-                                            <input id="passwordpassword" type="password" class="form-control login-password" placeholder="Mot de passe">
+                                            <input id="password" name="password" type="password" class="form-control login-password" placeholder="Mot de passe">
                                             <p class="forgot-password"><a href="#">Mot de passe oublié?</a></p>
                                         </div><!--//form-group-->
                                         <button type="submit" class="btn btn-block btn-cta-primary">Connexion</button>
