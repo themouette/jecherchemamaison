@@ -74,6 +74,11 @@
             "sass": "sass",
 
             // -------------------------------------------------
+            // This is the less sources root directory.
+            // -------------------------------------------------
+            "less": "less",
+
+            // -------------------------------------------------
             // Directory where frontend javascript is located.
             // In dev mode those scripts are available under
             // `/vendors` url.
@@ -94,6 +99,12 @@
             // Dev server file.
             // -------------------------------------------------
             "dev": "<%= config.server.dir %>/index-dev.js"
+        },
+
+        "velocity": {
+            "dir": "theme-velocity/velocity/assets",
+            "maincss": "<%= config.public.css %>/velocity.css",
+            "mainjs": "<%= config.public.js %>/velocity.js"
         }
     }
 }
