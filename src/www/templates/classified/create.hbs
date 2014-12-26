@@ -4,6 +4,27 @@
         <h3 class="classified-create-header">Modifier une annonce</h3>
         {{else}}
         <h3 class="classified-create-header">Ajouter une annonce</h3>
+        <div class="row panel callout">
+            <div class="row nested">
+                <div class="small-12 columns">
+                    <p class="text-center">
+                    Pour ajouter une annonce, il vous suffit de copier le lien dans le champ suivant puis cliquer sur le bouton.<br />
+                    Vous pouvez bien sur saisir les informations manuellement.
+                    </p>
+                </div>
+            </div>
+            <div class="row nested">
+                <div class="small-12 medium-8 medium-centered columns">
+                    <p class="text-center">
+                        <input type="url" name="lien" value="{{this.link}}" id="lien">
+                    </p>
+                    <p class="text-center">
+                        <a class="button classified-fetch">Récupérer l'annonce</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
         {{/if}}
         <section class="classified-create-main">
         {{> classified/_form }}
