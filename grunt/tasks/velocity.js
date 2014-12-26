@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 'paths': ['theme-velocity/less/default'],
                 'sourceMap': true,
                 'sourceMapFilename': '<%= config.public.css %>/velocity.css.map',
-                'sourceMapURL': 'css/velocity.css.map'
+                'sourceMapURL': 'velocity.css.map'
             },
             'velocity': {
                 'files': {
