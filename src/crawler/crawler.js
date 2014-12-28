@@ -17,7 +17,7 @@ var crawl = module.exports = function (url, next) {
         'casperjs ',
         casper_args.join(' '), ' ',
         __dirname+'/casper.js ',
-        url].join('');
+        JSON.stringify(url)].join('');
         console.log('Execute: ', cmd);
 
     exec(cmd, function (error, stdout, stderr) {
