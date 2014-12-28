@@ -10,3 +10,7 @@ router.get('/', function index(req, res, next) {
 
     res.render('landing/index.html');
 });
+
+router.get('/cookie-optout', function cookieOptout(req, res, next) {
+    res.render('landing/cookieOptout.html');
+});

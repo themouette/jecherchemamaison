@@ -5,13 +5,17 @@ console.log('-------------------->');
 console.log('Data stores: "%s"', root);
 console.log('-------------------->');
 
+var isProduction = process.env.NODE_ENVIRONMENT === "production";
+
 var config = module.exports = {
     "data": {
         "dir": root,
         "screenshots": root+"/screenshots",
         "databases": root+"/databases",
         "views": path.join(__dirname, 'views')
-    }
+    },
+
+    "analytics": isProduction
 };
 
 

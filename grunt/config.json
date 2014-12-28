@@ -105,6 +105,11 @@
             "dir": "theme-velocity/velocity/assets",
             "maincss": "<%= config.public.css %>/velocity.css",
             "mainjs": "<%= config.public.js %>/velocity.js"
+        },
+
+        "cookiebar": {
+            "js": "src/vendor/jquery.cookiebar/jquery.cookiebar.js",
+            "css": "src/vendor/jquery.cookiebar/jquery.cookiebar.css"
         }
     }
 }

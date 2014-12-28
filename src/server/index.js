@@ -60,6 +60,9 @@ app
         next();
     });
 
+// Set statistics
+app.locals.analytics = config.analytics;
+
 app
     .use(users)
     .use(landing)

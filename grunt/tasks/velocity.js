@@ -23,7 +23,8 @@ module.exports = function (grunt) {
                     '<%= config.velocity.dir %>/plugins/font-awesome/css/font-awesome.css',
                     '<%= config.velocity.dir %>/plugins/flexslider/flexslider.css',
                     //'<%= config.velocity.dir %>/css/styles.css',
-                    '<%= config.velocity.maincss %>'],
+                    '<%= config.velocity.maincss %>',
+                    '<%= config.cookiebar.css %>'],
                 'dest': '<%= config.velocity.maincss %>'
             },
             'velocity-js': {
@@ -36,7 +37,8 @@ module.exports = function (grunt) {
                     '<%= config.velocity.dir %>/plugins/jquery-placeholder/jquery.placeholder.js',
                     '<%= config.velocity.dir %>/plugins/FitVids/jquery.fitvids.js',
                     '<%= config.velocity.dir %>/plugins/flexslider/jquery.flexslider-min.js',
-                    '<%= config.velocity.dir %>/js/main.js' ],
+                    '<%= config.velocity.dir %>/js/main.js',
+                    '<%= config.cookiebar.js %>'],
                 'dest': '<%= config.velocity.mainjs %>'
             }
         },
