@@ -175,6 +175,21 @@
     </footer><!--//footer-->
     <!-- Javascript -->
     <script type="text/javascript" src="js/velocity.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(function() {
+        $.cookieBar({
+            fixed: true,
+            message: "Nous utilisons des cookies à des fins statistiques",
+            acceptButton: true,
+            acceptText: 'J\'accepte',
+            declineButton: false,
+            declineText: 'Désactiver',
+            policyButton: true,
+            policyText: 'préférences',
+            policyURL: '/cookie-optout'
+        });
+    });
+    </script>
     {% include "partials/analytics.html" %}
 </body>
 </html>
