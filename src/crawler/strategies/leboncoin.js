@@ -40,7 +40,7 @@ module.exports = {
                     __utils__.echo("I can't handle "+val.key);
             }
         }
-        return JSON.stringify(data);
+        return data;
 
         // parse images
         function getImages() {
