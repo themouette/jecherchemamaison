@@ -29,6 +29,20 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        "concat": {
+            "sass-main": {
+                "src": [
+                    "<%= config.public.css %>/main.css",
+                    "<%= config.cookiebar.css %>"],
+                "dest": "<%= config.public.css %>/main.css"
+            },
+            "sass-landing": {
+                "src": [
+                    "<%= config.public.css %>/landing.css",
+                    "<%= config.cookiebar.css %>"],
+                "dest": "<%= config.public.css %>/landing.css"
+            }
+        },
         "cssmin": {
             "release": {
                 "files": [{
@@ -48,6 +62,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('style:dev', 'Build stylesheets continuously.', ['sass:all', 'watch:sass']);
-    grunt.registerTask('style:release', 'Build stylesheets for release.', ['sass:all', 'cssmin:release']);
+    grunt.registerTask('style:build', ['sass:all', 'concat:sass-main', 'concat:sass-landing']);
+    grunt.registerTask('style:dev', 'Build stylesheets continuously.', ['style:build', 'watch:sass']);
+    grunt.registerTask('style:release', 'Build stylesheets for release.', ['style:build', 'cssmin:release']);
 };

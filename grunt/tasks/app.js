@@ -90,7 +90,8 @@ module.exports = function (grunt) {
             "vendors": {
                 "src": [
                     "<%= config.www.bower %>/jquery/dist/jquery.min.js",
-                    "<%= config.www.bower %>/foundation/js/foundation.min.js"],
+                    "<%= config.www.bower %>/foundation/js/foundation.min.js",
+                    "<%= config.cookiebar.js %>"],
                 "dest": "<%= config.public.vendorsjs %>"
             }
         },
