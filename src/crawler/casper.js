@@ -21,6 +21,8 @@ crawl(casper.cli.args[0]);
 function selectStrategy(url) {
     if (/^https?:\/\/www.leboncoin.fr/.test(url)) {
         return require('strategies/leboncoin');
+    } else if(/^https?:\/\/www.seloger.com/.test(url)) {
+        return require('strategies/seloger');
     } else {
         return require('strategies/unknown');
     }
@@ -55,7 +57,7 @@ function crawl(url) {
                 return casper.exit(1);
             }
 
-            casper.echo('classified='+data);
+            casper.echo('classified='+JSON.stringify(data));
         })
         .then(function () {
             casper.exit(0);
