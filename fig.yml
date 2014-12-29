@@ -1,0 +1,38 @@
+lb:
+    image: nginx
+    ports:
+        - "80:80"
+        - "443:443"
+    links:
+        - app:app.recherche.immo
+    volumes:
+        - ./docker/nginx/etc/nginx.conf:/etc/nginx.conf:ro
+        - ./docker/nginx/etc/nginx:/etc/nginx:ro
+        - ./public:/var/www/recherche.immo/public
+
+app:
+    build: .
+    environment:
+        - "DEBUG=jcmm:*,users:*"
+    ports:
+        - "1337:1337"
+    working_dir: /usr/local/recherche.immo
+    volumes:
+        - .:/usr/local/recherche.immo
+        # This is a temporary fix when working on express-users
+        # Only work on my machine.
+        - ../express-users:/usr/local/express-users
+    # replace forever with nodemon in development
+    entrypoint: './node_modules/.bin/nodemon'
+    command: ["src/server/index.js"]
+    links:
+        - sessionstore:sessionstore.recherche.immo
+        - store:store.recherche.immo
+
+sessionstore:
+    image: redis:2.8
+
+store:
+    image: dockerfile/mongodb
+
+
