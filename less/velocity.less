@@ -11,3 +11,32 @@
     z-index: 50;
     height: auto !important;
 }
+
+.blog-slider {
+    .slide {
+    }
+}
+/* ======= Headline Background & Slideshow ======= */
+
+.bg-slider-wrapper {
+    .flexslider {
+        .slide {
+            &.slide-1 {
+                background:@color-2 url('../images/cover/paris.jpg') no-repeat 50% 50%;
+                .background-size(cover);
+            }
+            &.slide-2 {
+                background:@color-2 url('../images/cover/cabane.jpg') no-repeat 50% bottom;
+                .background-size(cover);
+            }
+            &.slide-3 {
+                background:@color-2 url('../images/cover/phare.jpg') no-repeat left 50%;
+                .background-size(cover);
+            }
+            &.slide-4 {
+                background:@color-2 url('../images/cover/lac.jpg') no-repeat 50% center;
+                .background-size(cover);
+            }
+        }
+    }
+}
