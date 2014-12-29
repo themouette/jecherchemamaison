@@ -54,6 +54,18 @@ module.exports = function (grunt) {
                 }]
             }
         },
+        "copy": {
+            "images": {
+                "files": [
+                    {
+                        "expand": true,
+                        "cwd": '<%= config.www.images %>',
+                        "src": ['**'],
+                        "dest": "<%= config.public.images %>/"
+                    }
+                ]
+            }
+        },
         "watch": {
             "sass": {
                 "tasks": ["sass:all"],
@@ -62,7 +74,7 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('style:build', ['sass:all', 'concat:sass-main', 'concat:sass-landing']);
+    grunt.registerTask('style:build', ['sass:all', 'concat:sass-main', 'concat:sass-landing', "copy:images"]);
     grunt.registerTask('style:dev', 'Build stylesheets continuously.', ['style:build', 'watch:sass']);
     grunt.registerTask('style:release', 'Build stylesheets for release.', ['style:build', 'cssmin:release']);
 };

@@ -26,6 +26,11 @@
             "mainjs": "<%= config.public.js %>/main.js",
             "vendorsjs": "<%= config.public.js %>/vendors.js",
 
+            // -------------------------------------------------
+            // This is the images directory.
+            // ------------------------------------------
+            "images": "<%= config.public.dir %>/images",
+
             // ------------------------------------------
             // Where are compiled templates located
             // ------------------------------------------
@@ -77,6 +82,11 @@
             // This is the less sources root directory.
             // -------------------------------------------------
             "less": "less",
+
+            // -------------------------------------------------
+            // This is the source images root directory.
+            // -------------------------------------------------
+            "images": "images",
 
             // -------------------------------------------------
             // Directory where frontend javascript is located.

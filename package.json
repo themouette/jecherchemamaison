@@ -9,7 +9,7 @@
     "start": "./node_modules/.bin/forever src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
-    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon src/server/index-dev.js"
+    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon --watch src/ src/server/index-dev.js"
   },
   "author": "",
   "license": "MIT",
@@ -22,6 +22,7 @@
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-concat": "^0.4",
     "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "~0.7.0",
     "grunt-contrib-handlebars": "~0.6.1",
     "grunt-contrib-less": "^1.0.0",
