@@ -20,7 +20,7 @@ app:
     volumes:
         - .:/usr/local/recherche.immo
         # This is a temporary fix when working on express-users
-        # Only work on my machine.
+        # This is included in `./bin/install` script
         - ../express-users:/usr/local/express-users
     # replace forever with nodemon in development
     entrypoint: './node_modules/.bin/nodemon'
@@ -35,4 +35,15 @@ sessionstore:
 store:
     image: dockerfile/mongodb
 
+# #### Npm container
+#
+# Run npm  in a docker container.
+# Simply run `fig run npm install` to install dependencies
+# Simply run `fig run npm run dev` to run in dev mode
+npm:
+    image: node:0.10
+    working_dir: /usr/local/recherche.immo
+    volumes:
+        - .:/usr/local/recherche.immo
+    entrypoint: npm
 

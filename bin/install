@@ -5,8 +5,22 @@ echo "Report to README for other environment installation"
 REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
-[[ -d "${DIR}/express-users" ]] || git clone https://github.com/themouette/express-users.git "${DIR}/express-users"
+# Create fig repositories
+# -----------------------
 
+mkdir -p "${REPO_DIR}/.fig/store/data"
+
+# Install assets
+# --------------
+
+fig -f "${DIR}/fig.yml" run npm install
+fig -f "${DIR}/fig.yml" run npm release
+
+# Install express-user
+# --------------------
+
+# Clone express user to add ability to heck on it while developping.
+[[ -d "${DIR}/express-users" ]] || git clone https://github.com/themouette/express-users.git "${DIR}/express-users"
 # Install a development link for express-users
 if [[ ! -L node_modules/express-users ]]
 then
