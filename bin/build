@@ -234,7 +234,7 @@ case "$TARGET" in
         ssh ${SERVER_DSN} "cd ${SERVER_DIR} &&  \
                 git fetch origin && git reset --hard origin/$branch && \
                 ./bin/build images --build-id ${BUILD_ID} && \
-                fig restart app && fig restart lb"
+                fig restart app lb"
 
         $scriptname tag --build-id "${BUILD_ID}"
         ;;
