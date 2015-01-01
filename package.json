@@ -9,7 +9,8 @@
     "start": "./node_modules/.bin/forever src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
-    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon src/server/index-dev.js"
+    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon src/server/index-dev.js",
+    "release": "grunt release"
   },
   "author": "",
   "license": "MIT",
