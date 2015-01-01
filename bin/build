@@ -109,6 +109,8 @@ function create_artifacts_dir {
     mkdir -p "${ARTIFACTS_DIR}"
 }
 
+
+
 function build_assets {
     create_artifacts_dir
 
@@ -164,6 +166,9 @@ function build_web {
     rm -rf "${TMP_DIR}"
     echo "build"
 }
+
+
+
 
 function build_images {
     [ -d "${TMP_DIR}" ] && rm -rf "${TMP_DIR}"
@@ -251,7 +256,7 @@ case "$TARGET" in
         ssh -t ${SERVER_DSN} "[ ! -d ${SERVER_DIR} ] && git clone git@github.com:themouette/jecherchemamaison.git ${SERVER_DIR};  \
                 cd ${SERVER_DIR} ; \
                 [ ! -d artifacts ] && mkdir artifacts ; \
-                [ ! -f fig.production.yaml ] && cp fig.production.yml.sample fig.production.yml"
+                [ ! -f fig.production.yml ] && cp fig.production.yml.sample fig.production.yml"
         ;;
     clean:prod )
         # remove unused containers and images
