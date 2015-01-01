@@ -1,0 +1,236 @@
+#!/usr/bin/env bash
+
+# Initialize our own variables:
+REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+TMP_DIR="/tmp/builds"
+ARTIFACTS_DIR="${REPO_DIR}/artifacts/"
+# scp compatible dsn for server
+SERVER_DSN="admin@recherche.immo.prod"
+SERVER_DIR="recherche.immo"
+
+IMAGE_NAME="rch.im/web"
+BUILD_ID="$(date "+%Y-%m-%d_%Hh%m")"
+
+scriptname="${BASH_SOURCE[0]}"
+branch="master"
+branch="features/fig"
+
+function show_usage {
+    echo "Build recherche.immo for production"
+    echo ""
+    echo "Available targets:"
+    echo "  artifacts       build all artifacts"
+    echo "  assets          build the assets"
+    echo "  web             build the web application"
+    echo "  images          build the images application"
+    echo "  deploy          build the deploy application"
+    echo "  tag             tag and push the current state"
+    echo "  stage           build and push to stage"
+    echo ""
+    echo "Available options"
+    echo "  -f, --force         execute the build script"
+    echo "  -b, --build-dir     the directory to build in"
+    echo "  -a, --artifacts-dir directory where build packages are located"
+    echo "  --server-dsn        the server to deploy to (ssh compatible)"
+    echo "  --server-dir        the server directory where to deploy"
+    echo "  --build-id          the build id, used for tagging"
+    echo ""
+    echo "Sample Usage"
+    echo "  $scriptname artifacts --tmp-dir ${TMP_DIR} --artifacts-dir ${ARTIFACTS_DIR}"
+    echo "  $scriptname assets --tmp-dir ${TMP_DIR} --artifacts-dir ${ARTIFACTS_DIR}"
+    echo "  $scriptname web --tmp-dir ${TMP_DIR} --artifacts-dir ${ARTIFACTS_DIR}"
+    echo ""
+    echo "  $scriptname deploy --artifacts-dir ${ARTIFACTS_DIR} --server-dsn ${SERVER_DSN} --server-dir ${SERVER_DIR}"
+    echo "  $scriptname images --artifacts-dir ${ARTIFACTS_DIR} --tmp-dir ${TMP_DIR} --build-id ${BUILD_ID}"
+    echo ""
+    echo "  $scriptname tag"
+    echo "  $scriptname stage"
+}
+
+# parse options
+while [[ $# -ge 1 ]]
+do
+    key="$1"
+    shift
+
+    case $key in
+    artifacts|assets|web|deploy|images|tag|stage)
+            TARGET="$key"
+        ;;
+        -t|--tmp-dir)
+            TMP_DIR="$1"
+            shift
+        ;;
+        -a|--artifacts-dir)
+            ARTIFACTS_DIR="$1"
+            shift
+        ;;
+        -b|--build-id)
+            BUILD_ID="$1"
+            shift
+        ;;
+        --server-dsn)
+            SERVER_DSN="$1"
+            shift
+        ;;
+        --server-dir)
+            SERVER_DIR="$1"
+            shift
+        ;;
+        -h|--help|help)
+            show_usage
+            exit 0
+        ;;
+        *)
+            echo "Unknow argument $key"
+            exit 1
+    esac
+done
+
+[ "$1" = "--" ] && shift
+
+if [[ -z "$TARGET" ]]; then
+    echo ""
+    echo "You must provide a target"
+    echo ""
+    echo "Run $0 --help for further information"
+    echo ""
+    exit 1
+fi
+
+# Ensure artifact dir is relative to repo dir
+ARTIFACTS_DIR="$( cd $REPO_DIR && cd $ARTIFACTS_DIR && pwd)"
+
+function create_artifacts_dir {
+    mkdir -p "${ARTIFACTS_DIR}"
+}
+
+function build_assets {
+    create_artifacts_dir
+
+    # build assets in public directory
+    cd $REPO_DIR
+    fig run npm run release
+
+    [ -d "${TMP_DIR}" ] && rm -rf "${TMP_DIR}"
+    mkdir -p "${TMP_DIR}/assets"
+    cp -r ${REPO_DIR}/public ${TMP_DIR}/assets
+
+    # create or replace archive
+    [ -f ${ARTIFACTS_DIR}/assets.tgz ] && rm ${ARTIFACTS_DIR}/assets.tgz
+    cd ${TMP_DIR}
+    tar -czf ${ARTIFACTS_DIR}/assets.tgz assets
+
+    # Clean our mess
+    rm -rf "${TMP_DIR}"
+}
+
+function build_web {
+    [ -d "${TMP_DIR}" ] && rm -rf "${TMP_DIR}"
+    mkdir -p "${TMP_DIR}"
+
+    # Create archive of the repo in tmp dir
+    cd "${REPO_DIR}"
+    git archive --prefix=web/ -o ${TMP_DIR}/recherche.immo.tgz $branch
+
+    # extract archive and remove it
+    cd ${TMP_DIR}
+    tar -xzf ${TMP_DIR}/recherche.immo.tgz
+    rm ${TMP_DIR}/recherche.immo.tgz
+
+    # Some cleanup
+    # only keep the listed files
+    cd ${TMP_DIR}/web
+    find . -maxdepth 1 \
+            -not -name "." -and \
+            -not -name "Dockerfile" -and \
+            -not -name "package.json" -and \
+            -not -name "src" \
+            -exec rm -rf {} \;
+
+    # create archive of production code
+    # It will be wrapped in a `web` directory
+    create_artifacts_dir
+    cd ${TMP_DIR}
+    [ -f ${ARTIFACTS_DIR}/web.tgz ] && rm ${ARTIFACTS_DIR}/web.tgz
+    tar -czf ${ARTIFACTS_DIR}/web.tgz web
+
+    # Clean our mess
+    rm -rf "${TMP_DIR}"
+    echo "build"
+}
+
+function build_images {
+    [ -d "${TMP_DIR}" ] && rm -rf "${TMP_DIR}"
+    mkdir -p "${TMP_DIR}"
+
+    cd "${TMP_DIR}"
+    tar -xzf ${ARTIFACTS_DIR}/web.tgz
+    tar -xzf ${ARTIFACTS_DIR}/assets.tgz
+
+    # Up to now, assets are served by nodejs
+    # so let's copy themin webdir
+    # TODO Add an asset image
+    cp -R "${TMP_DIR}/assets/public" "${TMP_DIR}/web"
+    cd "${TMP_DIR}/web"
+    docker build -t "${IMAGE_NAME}:${BUILD_ID}" .
+    docker tag -f "${IMAGE_NAME}:${BUILD_ID}" "${IMAGE_NAME}:latest"
+
+    rm -rf "${TMP_DIR}"
+}
+
+case "$TARGET" in
+    artifacts )
+        build_assets
+        build_web
+        ;;
+    assets )
+        build_assets
+        ;;
+    web )
+        build_web
+        ;;
+    deploy )
+        echo "Will copy artifacts on remote server"
+        ;;
+    images )
+        build_images
+        ;;
+    tag )
+        cd "${REPO_DIR}"
+        TAGNAME="deploy-${BUILD_ID}"
+        git tag $TAGNAME
+        git push origin $TAGNAME
+        ;;
+    stage )
+        cd "${REPO_DIR}"
+        ORIG_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+        git checkout -b release && \
+        fig run npm run release && \
+            git add -f public && \
+            git commit -m 'Latest release' && \
+            git push -f deploy release:master && \
+            git tag "stage-${BUILD_ID}"
+
+        git checkout "${ORIG_BRANCH}"&& \
+            git branch -D release
+        ;;
+    production )
+        # production server has the project cloned in ~/recherche.immo
+        # It also has the ~/recherche.immo/artifacts directory created
+        $scriptname artifacts --tmp-dir ${TMP_DIR} --artifacts-dir ${ARTIFACTS_DIR}
+
+        $scriptname deploy --artifacts-dir ${ARTIFACTS_DIR} --server-dsn ${SERVER_DSN} --server-dir ${SERVER_DIR}
+
+        ssh ${SERVER_DSN} "cd ${SERVER_DIR} &&  \
+                git pull --rebase origin $branch && \
+                ./bin/build images --build-id ${BUILD_ID} && \
+                ./bin/build start"
+
+        $scriptname tag --build-id "${BUILD_ID}"
+        ;;
+    * )
+        echo "Unknown target $TARGET"
+        show_usage
+        exit 0
+esac
