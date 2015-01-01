@@ -1,0 +1,23 @@
+lb:
+    image: rch.im/assets:latest
+    ports:
+        - "80:80"
+        - "443:443"
+    links:
+        - app:app.recherche.immo
+
+app:
+    image: rch.im/web:latest
+    environment:
+        - "DEBUG=jcmm:*,users:*"
+    volumes:
+        - ./data:/usr/local/recherche.immo/data
+    ports:
+        - "1337:1337"
+
+sessionstore:
+    image: redis:2.8
+
+store:
+    image: dockerfile/mongodb
+

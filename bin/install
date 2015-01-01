@@ -5,6 +5,12 @@ echo "Report to README for other environment installation"
 REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 
+# Create directories required by docker images
+# --------------------------------------------
+
+mkdir -p "${REPO_DIR}/docker/nginx/public"
+touch "${REPO_DIR}/docker/nginx/public/.keep"
+
 # Create fig repositories
 # -----------------------
 
@@ -13,8 +19,9 @@ mkdir -p "${REPO_DIR}/.fig/store/data"
 # Install assets
 # --------------
 
-fig -f "${DIR}/fig.yml" run npm install
-fig -f "${DIR}/fig.yml" run npm release
+fig -f "${REPO_DIR}/fig.yml" run npm install
+fig -f "${REPO_DIR}/fig.yml" run npm release
+sudo chown -R julien:julien ./public ./node_modules
 
 # Install express-user
 # --------------------
