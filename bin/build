@@ -239,7 +239,7 @@ case "$TARGET" in
                 git fetch origin && git reset --hard origin/$branch && \
                 ./bin/build images --build-id ${BUILD_ID} && \
                 fig -f fig.production.yml stop && \
-                fig -f fig.production.yml rm && \
+                fig -f fig.production.yml rm --force && \
                 fig -f fig.production.yml up -d app lb"
 
         $scriptname tag --build-id "${BUILD_ID}"
