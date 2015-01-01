@@ -14,7 +14,6 @@ BUILD_ID="$(date "+%Y-%m-%d_%Hh%M")"
 
 scriptname="${BASH_SOURCE[0]}"
 branch="master"
-branch="features/fig"
 
 function show_usage {
     echo "Build recherche.immo for production"
@@ -234,7 +233,9 @@ case "$TARGET" in
         ssh ${SERVER_DSN} "cd ${SERVER_DIR} &&  \
                 git fetch origin && git reset --hard origin/$branch && \
                 ./bin/build images --build-id ${BUILD_ID} && \
-                fig restart app lb"
+                fig -f fig.production.yml stop && \
+                fig -f fig.production.yml rm && \
+                fig -f fig.production.yml up -d app lb"
 
         $scriptname tag --build-id "${BUILD_ID}"
         ;;
@@ -246,7 +247,7 @@ case "$TARGET" in
         scp ~/.ssh/recherche_immo_deploy_dsa.pub ${SERVER_DSN}:~/.ssh/id_dsa.pub
         ssh ${SERVER_DSN} "chmod 400 ~/.ssh/id_dsa* && echo "
         echo "clone repo"
-        # install repository
+        # install build environment
         ssh -t ${SERVER_DSN} "[ ! -d ${SERVER_DIR} ] && git clone git@github.com:themouette/jecherchemamaison.git ${SERVER_DIR};  \
                 cd ${SERVER_DIR} ; \
                 [ ! -d artifacts ] && mkdir artifacts ; \
@@ -254,8 +255,8 @@ case "$TARGET" in
         ;;
     clean:prod )
         # remove unused containers and images
-        ssh ${SERVER_DSN} "docker rm \$(docker ps -a -q)"
-        ssh ${SERVER_DSN} "docker rmi \$(docker images -q)"
+        ssh ${SERVER_DSN} 'docker ps -a | grep "weeks ago" | awk "{print \$1}" | xargs docker rm'
+        ssh ${SERVER_DSN} 'docker images | grep "<none>" | awk "{print \$3}" | xargs docker rmi'
         ;;
     * )
         echo "Unknown target $TARGET"
