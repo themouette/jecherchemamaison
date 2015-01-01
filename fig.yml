@@ -5,9 +5,9 @@ lb:
         - "443:443"
     links:
         - app:app.recherche.immo
-#    volumes:
-#        - ./docker/nginx/etc/nginx:/etc/nginx:ro
-#        - ./public:/var/www/recherche.immo/public
+    volumes:
+        - ./docker/nginx/etc/nginx:/etc/nginx:ro
+        - ./public:/var/www/recherche.immo/public
 
 app:
     build: .
