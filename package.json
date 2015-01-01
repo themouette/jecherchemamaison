@@ -9,7 +9,8 @@
     "start": "./node_modules/.bin/forever src/server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
-    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon --watch src/ src/server/index-dev.js"
+    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon --watch src/server/index-dev.js",
+    "release": "grunt release"
   },
   "author": "",
   "license": "MIT",
@@ -33,6 +34,7 @@
     "load-grunt-tasks": "~0.3.0",
     "lodash": "~2.4.1",
     "mocha": "~1.17.1",
+    "nodemon": "^1.2.1",
     "superagent": "~0.16.0"
   },
   "engines": {

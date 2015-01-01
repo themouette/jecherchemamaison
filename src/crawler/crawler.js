@@ -14,6 +14,7 @@ if (process.env.DEBUG_CASPER) {
 var crawl = module.exports = function (url, next) {
     var exec = require('child_process').exec;
     var cmd = [
+        'PATH=$PATH:./node_modules/.bin ',
         'casperjs ',
         casper_args.join(' '), ' ',
         __dirname+'/casper.js ',

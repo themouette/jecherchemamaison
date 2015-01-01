@@ -42,7 +42,7 @@ app.post('/classifieds/from-url',
         crawl(url, function (err, classified) {
             if (err) {
                 debug(err);
-                return res.status(500).send(err.message);
+                return res.status(500).send(JSON.stringify({error: err.stack}));
             }
             res.send(classified);
         });

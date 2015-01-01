@@ -1,0 +1,49 @@
+lb:
+    build: ./docker/nginx
+    ports:
+        - "80:80"
+        - "443:443"
+    links:
+        - app:app.recherche.immo
+    volumes:
+        - ./docker/nginx/etc/nginx:/etc/nginx:ro
+        - ./public:/var/www/recherche.immo/public
+
+app:
+    build: .
+    environment:
+        - "DEBUG=jcmm:*,users:*"
+        - "DEBUG_CASPER=1"
+    ports:
+        - "1337:1337"
+    working_dir: /usr/local/recherche.immo
+    volumes:
+        - .:/usr/local/recherche.immo
+        # This is a temporary fix when working on express-users
+        # This is included in `./bin/install` script
+        - ../express-users:/usr/local/express-users
+    # replace forever with nodemon in development
+    entrypoint: './node_modules/.bin/nodemon'
+    command: ["src/server/index.js"]
+    links:
+        - sessionstore:sessionstore.recherche.immo
+        - store:store.recherche.immo
+
+sessionstore:
+    image: redis:2.8
+
+store:
+    image: dockerfile/mongodb
+
+# #### Npm container
+#
+# Run npm  in a docker container.
+# Simply run `fig run npm install` to install dependencies
+# Simply run `fig run npm run dev` to run in dev mode
+npm:
+    image: node:0.10
+    working_dir: /usr/local/recherche.immo
+    volumes:
+        - .:/usr/local/recherche.immo
+    entrypoint: npm
+

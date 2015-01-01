@@ -1,0 +1,35 @@
+#!/bin/bash
+
+IMMO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+IMMO_ENVIRONMENT=${IMMO_ENVIRONMENT-"development"}
+
+echo "  You are running recherche.immo in environment \"${IMMO_ENVIRONMENT}\""
+echo "  "
+echo "  Sample usage"
+echo "  "
+echo "    IMMO_ENVIRONMENT=production ./bin/start"
+echo "    IMMO_ENVIRONMENT=development ./bin/start"
+echo "    ./bin/start"
+echo "  "
+echo "            ---------------------"
+echo "  "
+echo "  See also following scripts"
+echo "  "
+echo "    ./bin/install"
+echo "    ./bin/stop"
+echo "    fig run npm run dev"
+echo "  "
+echo "            ---------------------"
+echo "  "
+
+if [[ "production" = ${IMMO_ENVIRONMENT} ]] ; then
+    # build assets for production
+    fig -f "${IMMO_DIR}/fig.yml" run npm run release
+    fig -f "${IMMO_DIR}/fig.yml" up -d lb app
+
+else
+    # default is development
+    fig -f "${IMMO_DIR}/fig.yml" up lb app
+
+fi
+
