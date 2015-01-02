@@ -3,7 +3,11 @@ var colorizer = require('colorizer').create('Colorizer');
 
 var casper = require('casper').create({
     logLevel: "info",
-    verbose: true
+    verbose: true,
+    pageOptions: {
+        javascriptEnabled: false,
+        loadImages: false
+    }
 });
 
 require("utils").dump(casper.cli.options);
