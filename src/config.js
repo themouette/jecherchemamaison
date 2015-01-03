@@ -5,7 +5,8 @@ console.log('-------------------->');
 console.log('Data stores: "%s"', root);
 console.log('-------------------->');
 
-var isProduction = process.env.NODE_ENVIRONMENT === "production";
+var isProduction = process.env.IMMO_ENVIRONMENT === "production";
+var isStaging = process.env.IMMO_ENVIRONMENT === "staging";
 
 var config = module.exports = {
     "data": {
@@ -15,7 +16,7 @@ var config = module.exports = {
         "views": path.join(__dirname, 'views')
     },
 
-    "analytics": isProduction
+    "analytics": isProduction || isStaging
 };
 
 
