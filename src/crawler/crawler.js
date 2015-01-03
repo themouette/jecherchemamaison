@@ -35,10 +35,14 @@ function crawl(url, next) {
         url: url,
         // Due to leboncoin encoding...
         // default null is ok.
-        encoding: strategy.encoding || null
+        encoding: strategy.encoding
     }, function onScrapped(err, res) {
         try {
-            var html = encoding.convert(res.body, 'utf-8');
+            var html = res.body;
+            if (strategy.encoding) {
+                html = encoding.convert(html, 'utf-8');
+            }
+
             var $ = cheerio.load(html);
 
             var data = strategy.extractData($);

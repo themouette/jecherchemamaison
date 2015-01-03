@@ -27,7 +27,7 @@ function getName($) {
 
 function getDescription($) {
     return $('#detail .description')
-        .html()
+        .text()
         .replace(/^\s*\n/gm, '')
         .replace(/\n\s+/g, ' ')
         .trim();
@@ -50,6 +50,8 @@ function getExtra($) {
 module.exports = {
     // the strategy user friendly name
     name: 'Se loger',
+
+    encoding: 'utf-8',
 
     detect: function (url) {
         return detectRe.test(url);
