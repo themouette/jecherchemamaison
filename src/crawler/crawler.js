@@ -1,68 +1,74 @@
-// This file should be executed in nodejs context.
-// It starts a casperjs browser and returns the parsed
-// classified or an error.
+#!/usr/bin/env node
+var _           = require('lodash');
+var VError      = require('verror');
+var request     = require('request');
+var encoding    = require('encoding');
+var cheerio     = require('cheerio');
+var debug       = require('debug')('jccm:crawler');
 
-var casper_args = [];
+var strategies  = require('./strategies');
 
-if (process.env.PROXY) {
-    casper_args.push('--proxy='+process.env.PROXY);
-}
-if (process.env.DEBUG_CASPER) {
-    casper_args.push('--verbose --log-level=debug');
-}
+module.exports = crawl;
 
-var crawl = module.exports = function (url, next) {
-    var exec = require('child_process').exec;
-    var cmd = [
-        'PATH=$PATH:./node_modules/.bin ',
-        'casperjs ',
-        casper_args.join(' '), ' ',
-        __dirname+'/casper.js ',
-        JSON.stringify(url)].join('');
-        console.log('Execute: ', cmd);
+function crawl(url, next) {
 
-    exec(cmd, function (error, stdout, stderr) {
-        if (error) next(error);
+    debug('attempt to crawl "%s"', url);
 
-        if (!classifiedRe.test(stdout)) {
-            next(new Error('No classified found.'));
-        }
-
-        var classified;
-        try {
-            classified = classifiedRe.exec(stdout)[1];
-            classified = JSON.parse(classified);
-            next(null, classified);
-        } catch (e) {
-            next(e);
-        }
+    // select strategy to apply
+    var strategy = _.find(strategies, function (s) {
+        return s.detect(url);
     });
 
-};
-
-var classifiedRe = /^classified=(.*)$/m;
-var errorRe = /^error=(.*)$/m;
-
-function downloadImage(url, dest) {
-    var request = require('superagent'),
-        fs = require('fs');
-
-    if (!dest) {
-        throw new Exception('destination file is required');
+    if (!strategy) {
+        return next(new VError('No matching crawl strategy'));
     }
 
-    var stream = fs.createReadStream(dest);
-    var req = request.get(url);
-    stream.pipe(req);
+    debug('Strategy "%s" selected', strategy.name);
+
+    if (strategy.normalizeUrl) {
+        url = strategy.normalizeUrl(url);
+        debug('Normalize url "%s"', url);
+    }
+
+    // crawl
+    request.get({
+        url: url,
+        // Due to leboncoin encoding...
+        // default null is ok.
+        encoding: strategy.encoding || null
+    }, function onScrapped(err, res) {
+        try {
+            var html = encoding.convert(res.body, 'utf-8');
+            var $ = cheerio.load(html);
+
+            var data = strategy.extractData($);
+
+            next(null, data);
+
+        } catch (e) {
+            debug(e);
+            next(new VError(e, 'while crawling ' + url));
+        }
+    });
 }
 
 if (!module.parent) {
-    crawl('http://www.leboncoin.fr/ventes_immobilieres/614586041.htm?ca=3_s', function (err, classified) {
+    // Allow usage from command line
+    //
+    // DEBUG=* ./src/crawler/crawler.js "http://www.seloger.com/annonces/achat/appartement/clermont-ferrand-63/90939761.htm"
+    var args = process.argv.slice(2);
+
+    if (args.length < 1) {
+        console.log('Please provide a URL to crawl.');
+        return process.exit(1);
+    }
+
+    crawl(args[0], function (err, res) {
         if (err) {
-            console.log(err);
-            return ;
+            console.log('Following error occured:\n', err.stack);
+            return process.exit(1);
         }
 
-        console.log(classified);
+        console.log(res);
     });
 }

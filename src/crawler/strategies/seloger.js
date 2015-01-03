@@ -1,21 +1,76 @@
+var detectRe = /^https?:\/\/www.seloger.com/;
+var normalizeRe = /^([^\?]*)/;
+
+function getPrice($) {
+    var fullText = $('#price')
+        .text()
+        .replace(/&nbsp;/g, '')
+        .replace(/\n|\s/g, '')
+        .trim();
+
+    return /^(\d+)€/.exec(fullText)[1];
+}
+
+function getImages($) {
+    return $('img.carrousel-img')
+        .map(function () {
+            return $(this).attr('src');
+        }).get();
+}
+function getName($) {
+    return $('.detail-title')
+        .text()
+        .replace(/^\s*\n/gm, '')
+        .replace(/\n\s+/g, ' ')
+        .trim();
+}
+
+function getDescription($) {
+    return $('#detail .description')
+        .html()
+        .replace(/^\s*\n/gm, '')
+        .replace(/\n\s+/g, ' ')
+        .trim();
+}
+
+function getType($) {
+    var fullText = $('#detail .detail-subtitle')
+        .text();
+
+    return /Description de (.*)$/.exec(fullText)[1];
+}
+
+function getExtra($) {
+    return $('ol.description-liste li')
+        .map(function () {
+            return $(this).attr('title');
+        }).get();
+}
+
 module.exports = {
     // the strategy user friendly name
     name: 'Se loger',
-    // selector for screenshot
-    selector: '.main',
+
+    detect: function (url) {
+        return detectRe.test(url);
+    },
+
+    normalizeUrl: function (url) {
+        return normalizeRe.exec(url)[1];
+    },
 
     // data extractor.
     // This must be standalone.
-    extractData: function () {
+    extractData: function ($) {
         var data = {
-            price: getPrice(),
-            images: getImages(),
-            name: getName(),
-            content: getDescription(),
-            type: getType()
+            price: getPrice($),
+            images: getImages($),
+            name: getName($),
+            content: getDescription($),
+            type: getType($)
         };
 
-        var extra = getExtra();
+        var extra = getExtra($);
         var otherDisplayed = [];
 
         extra.forEach(function (val) {
@@ -38,62 +93,5 @@ module.exports = {
 
         return data;
 
-        function getPrice() {
-            var fullText = document
-                .getElementById('price')
-                .textContent
-                .replace(/&nbsp;/g, '')
-                .replace(/\n|\s/g, '')
-                .trim();
-
-            return /^(\d+)€/.exec(fullText)[1];
-        }
-
-        function getImages() {
-            var nodes = document
-                .querySelectorAll('img.carrousel-img');
-
-            return Array.prototype.map.call(nodes, function (node) {
-                return node
-                    .getAttribute('src');
-            });
-        }
-        function getName() {
-            return document
-                .querySelector('.detail-title')
-                .childNodes[0]
-                .textContent
-                .replace(/^\s*\n/gm, '')
-                .replace(/\n\s+/g, ' ')
-                .trim();
-        }
-
-        function getDescription() {
-            return document
-                .querySelector('#detail .description')
-                .innerHTML
-                .replace(/^\s*\n/gm, '')
-                .replace(/\n\s+/g, ' ')
-                .trim();
-        }
-
-        function getType() {
-            var fullText = document
-                .querySelector('#detail .detail-subtitle')
-                .childNodes[0]
-                .textContent;
-
-            return /Description de (.*)$/.exec(fullText)[1];
-        }
-
-        function getExtra() {
-            var nodes = document
-                .querySelectorAll('ol.description-liste li');
-
-            return Array.prototype.map.call(nodes, function (node) {
-                return node
-                    .getAttribute('title');
-            });
-        }
     }
 };
