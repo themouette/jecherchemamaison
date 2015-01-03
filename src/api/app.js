@@ -37,7 +37,7 @@ app.post('/classifieds/from-url',
         var crawl = require('../crawler/crawler');
         var url = req.body.url;
         if (!url) {
-            return res.status(400).send('url parameter is mandatory');
+            return res.status(400).send(JSON.stringify({error: 'url parameter is mandatory'}));
         }
         crawl(url, function (err, classified) {
             if (err) {
