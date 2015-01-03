@@ -5,6 +5,7 @@ echo "Report to README for other environment installation"
 REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../.." && pwd )"
 GROUP="$(groups|awk '{print $1;}')"
+IMMO_ENVIRONMENT=${IMMO_ENVIRONMENT-"development"}
 
 # Create directories required by docker images
 # --------------------------------------------
@@ -28,14 +29,20 @@ sudo chown -R "$USER:$GROUP" ./public ./node_modules
 
 # Install express-user
 # --------------------
+#
+# To avoid installing express-users, just run
+#
+# `IMMO_ENVIRONMENT=production ./bin/install`
 
-# Clone express user to add ability to heck on it while developping.
-[[ -d "${DIR}/express-users" ]] || git clone https://github.com/themouette/express-users.git "${DIR}/express-users"
-# Install a development link for express-users
-if [[ ! -L node_modules/express-users ]]
-then
-    mkdir -p "${REPO_DIR}/node_modules"
-    # remove if not a symlink
-    [[ ! -L node_modules/express-users ]] && rm -rf node_modules/express-users
-    ln -s "../../express-users" "${REPO_DIR}/node_modules/express-users"
+if [[ "production" = ${IMMO_ENVIRONMENT} ]] ; then
+    # Clone express user to add ability to heck on it while developping.
+    [[ -d "${DIR}/express-users" ]] || git clone https://github.com/themouette/express-users.git "${DIR}/express-users"
+    # Install a development link for express-users
+    if [[ ! -L node_modules/express-users ]]
+    then
+        mkdir -p "${REPO_DIR}/node_modules"
+        # remove if not a symlink
+        [[ ! -L node_modules/express-users ]] && rm -rf node_modules/express-users
+        ln -s "../../express-users" "${REPO_DIR}/node_modules/express-users"
+    fi
 fi
