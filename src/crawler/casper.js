@@ -4,7 +4,7 @@ var colorizer = require('colorizer').create('Colorizer');
 var casper = require('casper').create({
     logLevel: "info",
     verbose: true,
-    pageOptions: {
+    pageSettings: {
         javascriptEnabled: false,
         loadImages: false
     }
