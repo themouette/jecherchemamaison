@@ -14,6 +14,8 @@ app:
         - ./data:/usr/local/recherche.immo/data
     ports:
         - "1337:1337"
+    #entrypoint: 'npm'
+    #command: ["run", "serve-prod"]
 
 sessionstore:
     image: redis:2.8

@@ -6,10 +6,11 @@
   "unsafe-perm": true,
   "scripts": {
     "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
-    "start": "./node_modules/.bin/forever src/server/index.js",
+    "start": "npm run serve-prod",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
-    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* nodemon --watch src/server/index-dev.js",
+    "serve-prod": "forever src/server/index.js",
+    "serve-dev": "PORT=1337 DEBUG=jcmm:*,users:* supervisor --watch src/ src/server/index.js",
     "release": "grunt release"
   },
   "author": "",
@@ -34,8 +35,7 @@
     "load-grunt-tasks": "~0.3.0",
     "lodash": "~2.4.1",
     "mocha": "~1.17.1",
-    "nodemon": "^1.2.1",
-    "superagent": "~0.16.0"
+    "supervisor": "^0.6.0"
   },
   "engines": {
     "node": "0.10.*"

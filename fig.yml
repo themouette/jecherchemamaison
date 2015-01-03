@@ -23,8 +23,8 @@ app:
         # This is included in `./bin/install` script
         - ../express-users:/usr/local/express-users
     # replace forever with nodemon in development
-    entrypoint: './node_modules/.bin/nodemon'
-    command: ["src/server/index.js"]
+    entrypoint: 'npm'
+    command: ["run", "serve-dev"]
     links:
         - sessionstore:sessionstore.recherche.immo
         - store:store.recherche.immo
