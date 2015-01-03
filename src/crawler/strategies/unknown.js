@@ -1,6 +1,8 @@
 module.exports = {
     name: 'Unknown',
-    selector: null,
+    detect: function () {
+        return true;
+    },
     extractData: function () {
         return {
             images: getImages(),
