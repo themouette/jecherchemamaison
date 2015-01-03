@@ -16,6 +16,8 @@ touch "${REPO_DIR}/docker/nginx/public/.keep"
 # -----------------------
 
 mkdir -p "${REPO_DIR}/.fig/store/data"
+# temporary fix while using NeDB
+[[ ! -d "${REPO_DIR}/data" ]] && mkdir -p ${REPO_DIR}/data
 
 # Install assets
 # --------------
