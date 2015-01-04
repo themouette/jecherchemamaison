@@ -1,5 +1,10 @@
-grunt-init-themouette-frontend
-==============================
+Recherche.immo
+==============
+
+[![wercker
+status](https://app.wercker.com/status/2481d6204b915499405d66b319a433b5/m
+"wercker
+status")](https://app.wercker.com/project/bykey/2481d6204b915499405d66b319a433b5)
 
 See [Getting started guide](doc/getting-statded.md) to learn how to customize
 build.
