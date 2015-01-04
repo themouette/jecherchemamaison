@@ -16,7 +16,12 @@ var config = module.exports = {
         "views": path.join(__dirname, 'views')
     },
 
-    "analytics": isProduction || isStaging
+    "analytics": isProduction || isStaging,
+
+    "redis": {
+        "host": isStaging ? process.env.REDIS_HOST : 'sessionstore.recherche.immo',
+        "port": isStaging ? process.env.REDIS_PORT : '6379'
+    }
 };
 
 
@@ -34,7 +39,7 @@ config.users   = expressUsers({
 });
 
 var session         = require('express-session');
-var NedbStore       = require('connect-nedb-session')(session);
+var RedisStore      = require('connect-redis')(session);
 config.session = session({ secret: 'shhhh, very secret',
                     key: 'jccm_sess',
                     resave: false, // don't save session if unmodified
@@ -43,5 +48,5 @@ config.session = session({ secret: 'shhhh, very secret',
                              httpOnly: true,
                              maxAge: 365 * 24 * 3600 * 1000,   // One year for example
                              },
-                    store: new NedbStore({ filename: path.join(config.data.databases, 'sessions.db') })
+                    store: new RedisStore(config.redis)
                 });
