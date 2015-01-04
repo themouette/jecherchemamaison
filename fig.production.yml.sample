@@ -10,6 +10,7 @@ app:
     image: rch.im/web:latest
     environment:
         - "DEBUG=jcmm:*,users:*"
+        - "IMMO_ENVIRONMENT=production"
     volumes:
         - ./data:/usr/local/recherche.immo/data
     ports:
