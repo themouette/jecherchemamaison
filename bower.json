@@ -1,5 +1,5 @@
 {
-  "name": "my-awesome-app",
+  "name": "recehrche.immo",
   "dependencies": {
     "requirejs": "~2.1.*",
     "foundation": "~5.2",
