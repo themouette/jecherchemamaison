@@ -13,7 +13,7 @@ app:
     build: .
     environment:
         - "DEBUG=jcmm:*,users:*"
-        - "DEBUG_CASPER=1"
+        - "IMMO_ENVIRONMENT=development"
     ports:
         - "1337:1337"
     working_dir: /usr/local/recherche.immo
