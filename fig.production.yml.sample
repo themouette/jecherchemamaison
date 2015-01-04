@@ -17,6 +17,8 @@ app:
         - "1337:1337"
     #entrypoint: 'npm'
     #command: ["run", "serve-prod"]
+    links:
+        - sessionstore:sessionstore.recherche.immo
 
 sessionstore:
     image: redis:2.8
