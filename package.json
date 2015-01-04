@@ -4,6 +4,7 @@
   "description": "",
   "main": "Gruntfile.js",
   "unsafe-perm": true,
+  "private": true,
   "scripts": {
     "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
     "start": "npm run serve-prod",
