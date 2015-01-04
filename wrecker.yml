@@ -1,0 +1,15 @@
+box: wercker-labs/docker
+build:
+  steps:
+    - script:
+        name: docker version
+        code: |
+          docker -v
+    - script:
+        name: build artifacts
+        code: |
+          ./bin/build artifacts
+    - script:
+        name: build images
+        code: |
+          ./bin/build images
