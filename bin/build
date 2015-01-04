@@ -238,7 +238,7 @@ case "$TARGET" in
         ssh ${SERVER_DSN} "cd ${SERVER_DIR} &&  \
                 git fetch origin && git reset --hard origin/$branch && \
                 ./bin/build images --build-id ${BUILD_ID} && \
-                fig -f fig.production.yml stop && \
+                fig -f fig.production.yml stop app lb && \
                 fig -f fig.production.yml rm --force && \
                 fig -f fig.production.yml up -d app lb"
 
