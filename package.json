@@ -6,7 +6,7 @@
   "unsafe-perm": true,
   "private": true,
   "scripts": {
-    "prepublish": "./node_modules/.bin/bower install  ; ./node_modules/.bin/grunt release",
+    "prepublish": "bower install && grunt release",
     "start": "npm run serve-prod",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "DEBUG=jcmm:*,users:* grunt dev",
@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "body-parser": "^1.8.3",
-    "bower": "~1.2.8",
     "cheerio": "^0.18.0",
     "connect-flash": "^0.1.1",
     "connect-nedb-session": "0.0.3",
