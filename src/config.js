@@ -21,6 +21,13 @@ var config = module.exports = {
     "redis": {
         "host": isStaging ? process.env.REDIS_HOST : 'sessionstore.recherche.immo',
         "port": isStaging ? process.env.REDIS_PORT : '6379'
+    },
+
+    "express": {
+        // Should the server serve Bower components
+        serveVendors: !(isProduction || isStaging),
+        // Should the server serve development src
+        serveSrc: !(isProduction || isStaging)
     }
 };
 

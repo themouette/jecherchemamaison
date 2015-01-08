@@ -63,6 +63,10 @@ app
 // Set statistics
 app.locals.analytics = config.analytics;
 
+if (config.express.serveVendors) {
+    app.use('/vendors', express.static('bower_components'));
+}
+
 app
     .use(users)
     .use(landing)
@@ -71,6 +75,10 @@ app
     // Then compiled assets if exists
     .use('/', express.static('public'))
     ;
+
+if (config.express.serveSrc) {
+    app.use('/js', express.static('src/www'));
+}
 
 module.exports = app;
 
