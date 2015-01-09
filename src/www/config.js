@@ -12,6 +12,8 @@ require.config({
         json: '<%= vendors %>/requirejs-plugins/src/json',
         noext: '<%= vendors %>/requirejs-plugins/src/noext',
         mdown: '<%= vendors %>/requirejs-plugins/src/mdown',
+        jsx: '<%= vendors %>/jsx-requirejs-plugin/js/jsx',
+        JSXTransformer: '<%= vendors %>/jsx-requirejs-plugin/js/JSXTransformer',
         propertyParser : '<%= vendors %>/requirejs-plugins/src/propertyParser',
         markdownConverter : '<%= vendors %>/requirejs-plugins/lib/Markdown.Converter',
 
@@ -28,10 +30,15 @@ require.config({
         'backbone.stickit': '<%= vendors %>/backbone.stickit/backbone.stickit',
         'maps': 'https://maps.googleapis.com/maps/api/js?sensor=false',
 
+        'react': '<%= vendors %>/react/react',
+
         'fossil/views/model': 'views/model'
     },
     map: {
         '*': {}
+    },
+    jsx: {
+        fileExtension: '.jsx'
     },
     shim: {
         'underscore': {exports: '_'},
