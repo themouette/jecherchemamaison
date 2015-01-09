@@ -63,7 +63,9 @@ module.exports = {
             images: getImages($),
             price: getPrice($),
             content: getContent($),
-            name: getName($)
+            name: getName($),
+            town: '',
+            zipcode: ''
         };
 
         var extra = getExtra($);
@@ -92,6 +94,9 @@ module.exports = {
                     console.log("I can't handle "+val.key);
             }
         }
+
+        // update address
+        data.address = (data.zipcode + ' ' + data.town).trim();
         return data;
 
     }
