@@ -30,7 +30,8 @@ define([
 
     var Application = Module.extend({
         routes: {
-            '': 'index',
+            //'': 'index',
+            '': 'classifiedList',
             'classifieds': 'classifiedList',
             'classifieds/:id': 'classifiedShow',
             'classifieds/new': 'classifiedCreate',
