@@ -13,6 +13,11 @@ IMMO_ENVIRONMENT=${IMMO_ENVIRONMENT-"development"}
 mkdir -p "${REPO_DIR}/docker/nginx/public"
 touch "${REPO_DIR}/docker/nginx/public/.keep"
 
+# Create build repositories
+# -------------------------
+
+mkdir -p "${REPO_DIR}/artifacts"
+
 # Create fig repositories
 # -----------------------
 
