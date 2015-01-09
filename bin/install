@@ -24,7 +24,7 @@ mkdir -p "${REPO_DIR}/.fig/store/data"
 # --------------
 
 fig -f "${REPO_DIR}/fig.yml" run npm install
-fig -f "${REPO_DIR}/fig.yml" run npm release
+fig -f "${REPO_DIR}/fig.yml" run npm run release
 sudo chown -R "$USER:$GROUP" ./public ./node_modules
 
 # Install express-user
