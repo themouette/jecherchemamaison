@@ -7,7 +7,7 @@ lb:
         - app:app.recherche.immo
     volumes:
         - ./docker/nginx/etc/nginx:/etc/nginx:ro
-        - ./public:/var/www/recherche.immo/public
+        - .:/var/www/recherche.immo
 
 app:
     build: .

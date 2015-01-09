@@ -3,7 +3,7 @@ define([
     'fossil/module',
     'fossil/views/view',
 
-    'views/classified/list',
+    'views/classified/home',
     'views/classified/create',
     'views/classified/show',
     'models/classified',
@@ -22,7 +22,7 @@ define([
     'helpers/utils',
     'helpers/routing'
 ], function (module, Module, View,
-        ClassifiedListView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, MessageCollection,
+        ClassifiedHomeView, ClassifiedCreateView, ClassifiedShowView, Classified, ClassifiedCollection, MessageCollection,
         HomeView, VisitCollection,
         ViewStore) {
     "use strict";
@@ -50,8 +50,8 @@ define([
                     visits: visits
                 });
             });
-            store.set('classifiedList', function (collection) {
-                return new ClassifiedListView({
+            store.set('classifiedHome', function (collection) {
+                return new ClassifiedHomeView({
                     collection: collection
                 });
             });
@@ -101,7 +101,7 @@ define([
             this
                 .useView('loading')
                 .waitForFetch(this.classifieds, {reset: true})
-                .thenUseView('classifiedList', 'error');
+                .thenUseView('classifiedHome', 'error');
         },
 
         classifiedShow: function (id) {
