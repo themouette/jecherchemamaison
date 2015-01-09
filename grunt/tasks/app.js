@@ -83,7 +83,7 @@ module.exports = function (grunt) {
             },
             "app-kernel-release": {
                 "src": [
-                    "<%= config.www.bower %>/almond/almond.js",
+                    "<%= config.www.bower %>/requirejs/require.js",
                     "<%= config.public.mainjs %>" ],
                 "dest": "<%= config.public.mainjs %>"
             },
