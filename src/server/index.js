@@ -80,6 +80,16 @@ if (config.express.serveSrc) {
     app.use('/js', express.static('src/www'));
 }
 
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    console.log(err, err.stack);
+    res.status(err.status || 500);
+    res.render('error-prod', {
+        status: err.status
+    });
+});
+
 module.exports = app;
 
 if (!module.parent) {
