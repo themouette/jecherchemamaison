@@ -11,11 +11,15 @@ function getImages($) {
         .map(function (elt) {
             var str = $(elt).attr('style');
             if (!imageRe.test(str)) return null;
-            return imageRe
-                // extract backgound-image url
-                .exec(str)[1]
-                // replaces thumbs
-                .replace(imageAlterRe, 'images');
+            try {
+                return imageRe
+                    // extract backgound-image url
+                    .exec(str)[1]
+                    // replaces thumbs
+                    .replace(imageAlterRe, 'images');
+            }catch (e) {
+                return '';
+            }
         }).filter(function identity(a) {return a;});
 }
 
@@ -39,6 +43,9 @@ function getName($) {
 }
 
 function convertToNumber(str) {
+    if (!str) {
+        return null;
+    }
     return parseInt(str.replace(/\s/g, ''), 10);
 }
 
