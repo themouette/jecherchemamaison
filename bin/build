@@ -5,7 +5,7 @@ REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 TMP_DIR="/tmp/builds"
 ARTIFACTS_DIR="${REPO_DIR}/artifacts/"
 # scp compatible dsn for server
-SERVER_DSN="admin@recherche.immo.prod"
+SERVER_DSN="julien@recherche.immo.prod"
 SERVER_DIR="recherche.immo"
 
 # Prefix for all images
@@ -251,6 +251,7 @@ case "$TARGET" in
         scp ~/.ssh/recherche_immo_deploy_dsa ${SERVER_DSN}:~/.ssh/id_dsa
         scp ~/.ssh/recherche_immo_deploy_dsa.pub ${SERVER_DSN}:~/.ssh/id_dsa.pub
         ssh ${SERVER_DSN} "chmod 400 ~/.ssh/id_dsa* && echo "
+        ssh ${SERVER_DSN} "sudo apt-get update && sudo apt-get install -y wget git && wget -qO- https://get.docker.com/ | sh && curl -L https://github.com/docker/fig/releases/download/1.0.1/fig-`uname -s`-`uname -m` > /usr/local/bin/fig; chmod +x /usr/local/bin/fig"
         echo "clone repo"
         # install build environment
         ssh -t ${SERVER_DSN} "[ ! -d ${SERVER_DIR} ] && git clone git@github.com:themouette/jecherchemamaison.git ${SERVER_DIR};  \
