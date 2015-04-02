@@ -7,5 +7,5 @@ RUN npm install --production
 
 ENV PORT 1337
 
-ENTRYPOINT 
+ENTRYPOINT node
 CMD [ "./node_modules/.bin/forever", "src/server/index.js" ]
